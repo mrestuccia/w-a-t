@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 
 const conn = new Sequelize(process.env.DATABASE_URL);
 
+// this is a test ;]
 const Product = conn.define('product', {
   name: {
     type: conn.Sequelize.STRING,
