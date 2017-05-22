@@ -9,6 +9,7 @@ module.exports = app;
 app.use(require('body-parser').json());
 
 app.use('/vendor', express.static(path.join(__dirname, 'node_modules')));
+app.use('/static', express.static(path.join(__dirname, 'static')));
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
 
 app.get('/', (req, res, next)=> res.sendFile(path.join(__dirname, 'index.html')));
