@@ -1,4 +1,5 @@
 const conn = require('./conn');
+const faker = require('faker');
 
 const User = require('./user');
 const Group = require('./group');
@@ -23,7 +24,14 @@ const seed = () => {
   return sync()
     .then(() => {
       const promises = groups.map(name => Group.create({ name }))
-        .concat(users.map(name => User.create({ name, password: name.toUpperCase() })));
+        .concat(users.map(name => {
+          return User.create({
+            name: name, 
+            password: name.toUpperCase(),
+            lat:  faker.address.latitude(),
+            long: faker.address.longitude()
+          });
+        }));
       return Promise.all(promises);
     })
     .then(result => {
