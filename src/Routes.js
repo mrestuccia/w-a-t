@@ -16,10 +16,7 @@ import { loadProducts } from './redux/reducers/productsReducer';
 const Routes = ({ bootstrap })=> {
   return (
     <Router history={ hashHistory } onEnter={ bootstrap() }>
-      <Route path='/' component={ Layout }>
-        <IndexRoute component={ Home } />
-        <Route path='products' component={ProductsPage} />
-        <Route path='login' component={LoginPage} />
+      <Route path='/'>
       </Route>
     </Router>
   );
