@@ -5,7 +5,10 @@ const User = conn.define('user', {
     type: conn.Sequelize.STRING,
     unique: true
   },
-  password: conn.Sequelize.STRING
+  password: conn.Sequelize.STRING,
+  lat: conn.Sequelize.FLOAT,
+  long: conn.Sequelize.FLOAT,
+  lastUpdate: conn.Sequelize.DATE
 });
 
 module.exports = User;
