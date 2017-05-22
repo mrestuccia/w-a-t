@@ -7,106 +7,11 @@
     <script src='/static/MapScript.js'></script>
     <meta name='viewport' content='width=device-width initial-scale=1'>
     <title>WAT</title>
+    <title>Where are They - WAT</title>
   </head>
   <body>
     <div id='root'></div>
     <div class='container'>
-      <!--<div id='title'>
-        <h1>WAT</h1>
-        <button class='glyphicon glyphicon-cog btn-xs' style='float:right;margin-right:20px'></button>
-      </div>
-        <div class='w3-container w3-card'>
-        <button type='button' class='btn-primary btn-xs' style="float:right;margin-right:20px">Switch UI View</button>
-        <h4 display='inline-block'>UI Title<h4>
-        </div>
-        <div class='w3-container'>
-          <div class='w3-cell-row' style'margin:auto'>
-            <script src='https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCm7cpxb4mIzz8XSO9TYBX9yAf0ze36TnQ'></script>
-            <div style='overflow:hidden;height:300px;width:300px;margin:auto'>
-              <div id='gmap_canvas' style='height:300px;width:300px;'></div>
-              <style>#gmap_canvas img{max-width:400!important;background:none!important}</style>
-              </div> 
-              <a href='https://mapswebsite.net/'>embedding a google map</a> 
-              <script type='text/javascript' src='https://embedmaps.com/google-maps-authorization/script.js?id=2e85fed8a8c5e8edd5f9904a0c04660f7e99fc75'></script>
-              <script type='text/javascript'>function init_map(){
-                var myOptions = {zoom:13,center:new google.maps.LatLng(40.7050758,-74.00916039999998),
-                mapTypeId: google.maps.MapTypeId.ROADMAP};
-                map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions);
-                locations = [
-                  ['Evan',40.7050758,-74.00916039999998],
-                  ['Mauro',40.7050758,-74.02916039999998],
-                  ['Arum',40.7050758,-74.04916039999998],
-                  ['Summer',40.7050758,-74.06916039999998]
-                ];       
-                var bounds = new google.maps.LatLngBounds();
-                setMarkers(map,locations);
-                
-                function setMarkers(map, locations){
-                  var marker;
-                  for(var i=0;i<locations.length;i++){
-                    var name = locations[i][0];
-                    var lat = locations[i][1];
-                    var lng = locations[i][2];
-
-                    latlang = new google.maps.LatLng(lat,lng)
-                    var marker = new google.maps.Marker({
-                      map:map,
-                      position:latlang
-                    });
-                    myName='<strong>'+name+'<strong>';
-                    var infowindow = new google.maps.InfoWindow({content:myName})
-                    console.log(myName)
-                    google.maps.event.addListener(marker,'click',
-                    (function(marker,name,infowindow){
-                      return function(){
-                        //infowindow.setContent(name);
-                        infowindow.open(map,marker);
-                      };
-                    }
-                    )
-                    (marker,name,infowindow));
-                    //map.setCenter(latlang);
-                    bounds.extend(latlang)
-                  }
-                  map.fitBounds(bounds);
-                }
-              }
-              google.maps.event.addDomListener(window, 'load', init_map);
-              </script>
-          </div>
-        </div>
-        <div class='w3-container' style:'margin:auto'>
-          <div class='w3-cell-row'>
-            <table id="FriendsModal" class="table table-hover table-condensed" style:'max-width:300px'>
-              <thead>
-                <tr>
-                  <th style="width:35%">Name</th>
-                  <th style="width:45%">Location</th>
-                  <th style="width:10%"></th>
-                </tr>
-              </thead>
-              <tbody style:'margin:auto'>
-                <tr>
-                  <td data-th="Name">
-                    <div class='row'>
-                      <h4>Evan</h4>
-                    </div>
-                  </td>
-                  <td data-th="Location">
-                    <div class='row'>
-                      <h4>FSA</h4>
-                    </div>
-                  </td>
-                  <td data-th="">
-                    <div class='row'>
-                      <button class="glyphicon glyphicon-screenshot"></button>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>-->
     </div>
   </body>
 </html>
