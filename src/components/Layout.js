@@ -5,11 +5,13 @@ import { logout } from '../redux/reducers/userReducer';
 
 const Layout = ({ children, products, user, logout })=> (
   <div className='container'>
-    <h1>React Redux Template</h1>
+    <div id='title'>
+          <h1>WAT</h1>
+          <button className='glyphicon glyphicon-cog btn-xs' style={{float:'right',marginRight:'20px'}}></button>
+        </div>
+
     <div className='container'>
-    <Link to='/'>Home</Link>
-    { ' | ' }
-    <Link to='/products'>Products ({ products.length})</Link>
+    <Link to='/'>...</Link>
     { ' | ' }
     {
       !user.id ? (
@@ -23,8 +25,8 @@ const Layout = ({ children, products, user, logout })=> (
   </div> 
 );
 
-const mapStateToProps = ({ products, user})=>(
-  { products, user }
+const mapStateToProps = ({ groups, user})=>(
+  { groups, user }
 );
 
 const mapDispatchToProps = (dispatch)=> {
