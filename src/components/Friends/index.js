@@ -8,9 +8,7 @@ const friendList = ({friends, group}) =>(
 		<ul className='list-group'>
 		{
 			friends.map( friend => {
-				return (
-					<li key={friend.id}> {friend.user.name}</li>
-					)
+				return ( <li key={friend.id}> {friend.user.name}</li> )
 			})
 		}	
 		</ul>
