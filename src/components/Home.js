@@ -11,10 +11,11 @@ class Home extends Component {
       <div id='myApp'>
         <div className='w3-container w3-card'>
           <button type='button' className='btn-primary btn-xs' style={{ float: 'right', marginRight: '20px' }}>Switch UI View</button>
+          <Map />
            <GroupSelector />
            <FriendList />
         </div>
-        <Map />
+        
        
       </div>
     )
