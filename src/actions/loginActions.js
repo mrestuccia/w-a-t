@@ -41,8 +41,8 @@ const login = (credentials)=> {
         dispatch(loginUserSuccess(response.data.user))
         return response.data;
       })
-      //.then(data => localStorage.setItem('token', data.token))
-      //.then( ()=> dispatch(exchangeTokenForUser()))
+      .then(data => localStorage.setItem('token', data.token))
+      .then( ()=> dispatch(exchangeTokenForUser()))
       .catch((er)=> {
         localStorage.removeItem('token');
         throw er;
