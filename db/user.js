@@ -6,6 +6,7 @@ const User = conn.define('user', {
     unique: true
   },
   password: conn.Sequelize.STRING,
+  googleId: conn.Sequelize.STRING,
   lat: conn.Sequelize.FLOAT,
   long: conn.Sequelize.FLOAT,
   lastUpdate: conn.Sequelize.DATE

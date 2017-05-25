@@ -27,7 +27,7 @@ router.post('/auth', (req, res, next)=> {
       return res.sendStatus(401);
     }
     const token = jwt.encode({ id: user.id }, JWT_SECRET); 
-    res.send({ token });
+    res.send({ token, user });
   });
 });
 
