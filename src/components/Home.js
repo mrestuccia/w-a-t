@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
 import Map from './Map';
 import Friends from './Friends';
 import GroupSelector from './Group/Group.js';
@@ -20,5 +20,12 @@ class Home extends Component {
   }
 }
 
-export default Home;
+const mapStateToProps = (store) => {
+  console.log(store.user, " store in the home");
+  return {
+    user: store.user
+  }
+}
+
+export default connect(mapStateToProps)(Home);
 
