@@ -7,15 +7,18 @@ const GroupOption = ({ group }) => (
 );
 
 const GroupSelector = ({ groups }) => (
-  <select>
-    {
-      groups.map(group => {
-        return (
-          <GroupOption key={group.id} group={group.group} />
-        );
-      })
-    }
-  </select>
+  <div>
+    <select>
+      {
+        groups.map(group => {
+          return (
+            <GroupOption key={group.id} group={group.group} />
+          );
+        })
+      }
+    </select>
+
+  </div>  
 );
 
 const mapDispatchToProps = (dispatch) => (

@@ -8,7 +8,7 @@ import Routes from './Routes';
 const root = document.getElementById('root');
 
 const App = (
-  <Provider store = {store }>
+  <Provider store = { store }>
     <Routes />
   </Provider>
 );

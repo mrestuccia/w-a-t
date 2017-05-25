@@ -1,12 +1,12 @@
-import React from 'react'
+import React from 'react';
+import { connect } from 'react-redux';
+//import { loadGroups } from '../../redux/reducers/groupReducer';
 
-class Friends extends React.Component{
-  constructor(props){
-    super();
-  }
-  render(){
-    return(
-        <div className='w3-container' style={{margin:'auto'}}>
+const friendList = ({friends, group}) =>(
+	<div>
+		<h5>Friend List</h5>
+
+		<div className='w3-container' style={{margin:'auto'}}>
           <div className='w3-cell-row'>
             <table id="FriendsModal" className="table table-hover table-condensed" style={{maxWidth:'300px'}}>
               <thead>
@@ -20,12 +20,22 @@ class Friends extends React.Component{
                 <tr>
                   <td data-th="Name">
                     <div className='row'>
-                      <h4>Evan</h4>
+                      <h4>Prof</h4>
+                      {
+							friends.map( friend => {
+								return ( <h4 key={friend.id}> {friend.user.name}</h4> )
+							})
+				      }	
                     </div>
                   </td>
                   <td data-th="Location">
                     <div className='row'>
                       <h4>FSA</h4>
+                      {
+							friends.map( friend => {
+								return ( <h4 key={friend.id}> lat: {friend.user.lat} long: {friend.user.long}</h4> )
+							})
+				      }	
                     </div>
                   </td>
                   <td data-th="">
@@ -38,8 +48,22 @@ class Friends extends React.Component{
             </table>
           </div>
         </div>
-    )
-  }
-}
 
-export default Friends;
+	</div>
+	)
+
+
+const mapDispatchToProps = (dispatch) => (
+  {
+    loadFriends: () => dispatch(loadFriends(1))
+  }
+);
+
+const mapStateToProps = (state) => (
+  {
+    friends: state.friends
+  }
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(friendList);
+
