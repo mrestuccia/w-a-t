@@ -9,7 +9,7 @@ import Home from './components/Home';
 
 //import { exchangeTokenForUser } from './redux/reducers/userReducer';
 import { loadGroups } from './redux/reducers/groupReducer';
-
+import { loadFriends } from './redux/reducers/friendReducer'
 
 
 const Routes = ({ bootstrap })=> {
@@ -17,6 +17,7 @@ const Routes = ({ bootstrap })=> {
     <Router history={ hashHistory } onEnter={ bootstrap() }>
       <Route path='/' component={ Layout }>
         <IndexRoute component={ Home } />
+
       </Route>
     </Router>
   );
@@ -27,6 +28,7 @@ const mapDispatchToProps = (dispatch)=> {
     //dispatch(exchangeTokenForUser())
     //  .then( user => console.log(user));
     dispatch(loadGroups(1));
+    dispatch(loadFriends(1));
   };
   return {
     bootstrap
