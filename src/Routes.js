@@ -6,8 +6,7 @@ import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import Layout from './components/Layout';
 import Home from './components/Home';
 import Login from './components/LoginPage'; 
-
-//import { exchangeTokenForUser } from './redux/reducers/userReducer';
+import { exchangeTokenForUser } from './actions/loginActions.js';
 import { loadGroups } from './redux/reducers/groupReducer';
 import { loadFriends } from './redux/reducers/friendReducer'
 
@@ -25,8 +24,8 @@ const Routes = ({ bootstrap })=> {
 
 const mapDispatchToProps = (dispatch)=> {
   const bootstrap = ()=> {
-    //dispatch(exchangeTokenForUser())
-    //  .then( user => console.log(user));
+    dispatch(exchangeTokenForUser())
+     .then( user => console.log(user));
     dispatch(loadGroups(1));
     dispatch(loadFriends(1));
   };
