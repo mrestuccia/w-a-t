@@ -6,7 +6,7 @@ const userReducer = (state={}, action)=> {
       return Object.assign({}, state, action.user); 
       break;
     case LOGOUT_SUCCESS:
-      return state; 
+      return {}; 
       break;
     default:
       return state;

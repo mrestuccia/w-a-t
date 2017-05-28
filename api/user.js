@@ -9,6 +9,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'foo';
 
 
 router.get('/auth/:token', (req, res, next)=> {
+  console.log('test token',req.params.token);
   const token = jwt.decode(req.params.token, JWT_SECRET); 
   models.User.findById(token.id)
     .then( user => res.send(user))

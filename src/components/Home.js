@@ -23,7 +23,6 @@ class Home extends Component {
 }
 
 const mapStateToProps = (store) => {
-  console.log(store.user, " store in the home");
   return {
     user: store.user
   }

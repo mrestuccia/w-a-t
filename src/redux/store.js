@@ -13,6 +13,14 @@ const combined = combineReducers({
   friends: friendReducer
 });
 
-const store = createStore(combined, applyMiddleware(thunk));
+const reduxDevtools = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+
+let store;
+
+if (reduxDevtools) {
+    store = createStore(combined, reduxDevtools(applyMiddleware(thunk)));
+} else {
+    store = createStore(combined, applyMiddleware(thunk));
+}
 
 export default store;
