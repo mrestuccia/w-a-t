@@ -4,14 +4,13 @@ const app = express();
 const clientID = require('./config.js').clientID;
 const clientSecret = require('./config.js').clientSecret;
 const callbackURL = require('./config.js').callbackURL;
-const GoogleStrategy = require ('passport-google-oauth20').Strategy ;
-
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy ;
+const jwt = require('jwt-simple');
 const router = require ('express').Router();
-const User = require ('./db/user.js');
-
+const db = require ('./db');
 const passport = require ('passport');
+JWT_SECRET = 'foo';
 
-module.exports = app;
 
 app.use(require('body-parser').json());
 
@@ -19,38 +18,55 @@ app.use('/vendor', express.static(path.join(__dirname, 'node_modules')));
 app.use('/static', express.static(path.join(__dirname, 'static')));
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
 
-passport.use (
+passport.use(
     new GoogleStrategy({
         clientID:clientID,
         clientSecret:clientSecret,
-        callbackURL: callbackURL
+        callbackURL: callbackURL,
+        scope: 'email'
+       // scope: "https://www.googleapis.com/auth/plus.login"
+        // passReqToCallback : true // allows us to pass back the entire request to the callback
+        
   },
-  function(accessToken, refreshToken, profile, cb) {
-      let userInfo = {
-        name: profile.displayName,
-        password: profile.id
-      };
+  function(accessToken, refreshToken, profile, done) {
+console.log('hello google email!!!',profile.emails[0].value);
+    db.models.User.findOne({ where: { googleId: profile.id }})
+    .then(function (user) {
+      if(user)
+        return user;
+      return db.models.User.create({
+        name: profile.name.givenName,
+        email:profile.emails[0].value,
+        googleId: profile.id
+      });
+    })
+      .then(function(user){
+        done(null, user);
+      })
+      .catch((err)=>done(err,null));
+    }));
 
-    
-    User.findOrCreate({ where: { googleId: profile.id }}).then(function (user, err) {
-        //console.log(cb);
-      return cb();
-    });
-  }
-));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get('/', (req, res, next) => res.sendFile(path.join(__dirname, 'index.html')));
 
 
-app.get('/auth/google',
-  passport.authenticate('google', { scope: ['profile'] }));
+
+ app.get('/auth/google', passport.authenticate('google', {
+    scope: ['profile', 'email'],
+    session: false
+  }));
 
 app.get('/auth/google/callback', 
-  passport.authenticate('google', { scope: ['profile'], failureRedirect: '/',successRedirect:'/' }),
-  function(req, res, next) {
+  passport.authenticate('google', {failureRedirect: '/failed',session:false }),
+  function(req, res) {
+    var jwtToken = jwt.encode({id:req.user.id}, JWT_SECRET);
     // Successful authentication, redirect home.P
-    res.redirect('/');
+    res.redirect(`/?token=${jwtToken}`);
   });
 
 app.use('/api', require('./api/'));
+
+module.exports = app;
 

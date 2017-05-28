@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, hashHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { login } from '../actions/loginActions';
+import { login, logout} from '../actions/loginActions';
 
 
 class Login extends Component {
@@ -17,12 +17,15 @@ class Login extends Component {
   }
 
   onSubmit(event) {
+    
     event.preventDefault();
     this.props.login(this.state);
   }
 
   onChange(event) {
+    let change = {};
     this.setState({[event.target.name]: event.target.value});
+    this.setState(change);
   }
 
   render() {
@@ -52,7 +55,7 @@ class Login extends Component {
 }
 
 
-const mapStoreToProps = (store) => {
+const mapStateToProps = (store) => {
   return {
     user: store.user
   }
@@ -60,10 +63,11 @@ const mapStoreToProps = (store) => {
 const mapDispatchToProps = (dispatch)=> {
   return {
     login: (credentials)=> {
+      console.log('this user exsist!!!')
       return dispatch(login(credentials))
         .then(()=> hashHistory.push('/'))
     }
   };
 };
 
-export default connect(mapStoreToProps, mapDispatchToProps)(Login) ;
+export default connect(mapStateToProps, mapDispatchToProps)(Login) ;
