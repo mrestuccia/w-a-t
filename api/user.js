@@ -8,30 +8,35 @@ const JWT_SECRET = process.env.JWT_SECRET || 'foo';
 // including setting location
 
 
-router.get('/auth/:token', (req, res, next)=> {
-  console.log('test token',req.params.token);
-  const token = jwt.decode(req.params.token, JWT_SECRET); 
+// GET auth
+// token exchange
+router.get('/auth/:token', (req, res, next) => {
+  console.log('test token', req.params.token);
+  const token = jwt.decode(req.params.token, JWT_SECRET);
   models.User.findById(token.id)
-    .then( user => res.send(user))
+    .then(user => res.send(user))
     .catch(next);
 });
 
-router.post('/auth', (req, res, next)=> {
-  models.User.findOne({ 
+// GET auth
+// Find a user given a name and password
+router.post('/auth', (req, res, next) => {
+  models.User.findOne({
     where: {
       name: req.body.name,
       password: req.body.password
     }
   })
-  .then( user => {
-    if(!user){
-      return res.sendStatus(401);
-    }
-    const token = jwt.encode({ id: user.id }, JWT_SECRET); 
-    res.send({ token, user });
-  });
+    .then(user => {
+      if (!user) {
+        return res.sendStatus(401);
+      }
+      const token = jwt.encode({ id: user.id }, JWT_SECRET);
+      res.send({ token, user });
+    });
 });
 
+// GET
 // This show all the groups that this user is part of
 router.get('/:id/groups', (req, res, next) => {
   const _userId = req.params.id;
@@ -46,6 +51,32 @@ router.get('/:id/groups', (req, res, next) => {
     })
     .then((groups) => {
       res.send(groups);
+    })
+    .catch(next);
+});
+
+// PUT
+// Update the location
+router.put('/:id', (req, res, next) => {
+  const location = req.body;
+
+  // Check if I have the data: lat and long
+  if (!location && !location.lat && !location.lat) return res.sendStatus(404);
+
+  // Find the user
+  models.User.findOne({
+    where: {
+      id: req.params.id
+    }
+  })
+    .then((user) => {
+      // Update the user
+      user.lat = req.body.lat;
+      user.long = req.body.long;
+      return user.save();
+    })
+    .then(() => {
+      res.sendStatus(200);
     })
     .catch(next);
 });
