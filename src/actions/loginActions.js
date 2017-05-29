@@ -46,6 +46,7 @@ const login = (credentials)=> {
 };
 
 const logout = () =>{
+  console.log('here');
   return (dispatch)=>{
     localStorage.removeItem('token');
     dispatch(logoutSuccess());
@@ -57,6 +58,6 @@ const logout = () =>{
 export {
   login,
   exchangeTokenForUser,
-  logout,
+  logout
 };
 
