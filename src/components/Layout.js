@@ -6,8 +6,8 @@ import { logout } from '../actions/loginActions';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import AppBar from 'material-ui/AppBar';
-import IconMenu from 'material-ui/IconMenu' ;
-import MenuItem from 'material-ui/MenuItem' ;
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import Drawer from 'material-ui/Drawer';
@@ -22,6 +22,9 @@ const muiTheme = getMuiTheme({
   },
 });
 
+
+
+
 class Layout extends Component {
   constructor(props) {
     super(props);
@@ -34,17 +37,17 @@ class Layout extends Component {
 
   toggleMenu(e) {
     e.preventDefault();
-    this.setState({open: !this.state.open});
+    this.setState({ open: !this.state.open });
   }
 
   closeMenu() {
-    this.setState({open: false});
+    this.setState({ open: false });
   }
 
 
   render() {
 
-    const { children, products, user, logout } = this.props;
+    const { children, user, logout } = this.props;
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
       <div className='header'>
@@ -65,23 +68,21 @@ class Layout extends Component {
               <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'block' : 'none'}}>Edit the Group</MenuItem>
               <MenuItem onTouchTap={this.closeMenu} onClick={logout} style={{display: user.id ? 'block' : 'none'}}>Log Out</MenuItem>
           </Drawer>
-        {<a onClick = {logout}>LogOut ({user.name}) </a>}
-        {children}
-      </div> 
+          {children}
+        </div>
       </MuiThemeProvider>
     );
   }
 }
 
 
-const mapStateToProps = ({ groups, user})=>(
+const mapStateToProps = ({ groups, user }) => (
   { groups, user }
 );
 
-const mapDispatchToProps = (dispatch)=> {
+const mapDispatchToProps = (dispatch) => {
   return {
-    logout: ()=> dispatch(logout())
-                    .then(()=> hashHistory.push('/'))
+    logout: () => dispatch(logout()).then(() => hashHistory.push('/login'))
   };
 };
 

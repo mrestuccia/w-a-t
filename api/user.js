@@ -57,16 +57,24 @@ router.get('/:id/groups', (req, res, next) => {
 
 // PUT
 // Update the location
-router.put('/:id', (req, res, next) => {
+// Get's a token with the user id
+router.put('/:token', (req, res, next) => {
   const location = req.body;
+  const token = req.params.token;
+
+  const decoded = jwt.decode(token, JWT_SECRET);
+
 
   // Check if I have the data: lat and long
-  if (!location && !location.lat && !location.lat) return res.sendStatus(404);
+  if (!location && !location.lat && !location.lat && !decoded.id ) return res.sendStatus(404);
+
+
+  console.log('token resolved-->', decoded.id)
 
   // Find the user
   models.User.findOne({
     where: {
-      id: req.params.id
+      id: decoded.id
     }
   })
     .then((user) => {
