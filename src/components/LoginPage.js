@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, hashHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { login, logout} from '../actions/loginActions';
+import RaisedButton from 'material-ui/RaisedButton' ;
 
 
 class Login extends Component {
@@ -42,6 +43,7 @@ class Login extends Component {
         <button className='btn btn-primary' onClick={ login } disabled={ this.state.name.length === 0 || this.state.password.length === 0}>Login</button>
       </form>
       </div>
+      <RaisedButton>I'M HERE</RaisedButton>
       <div className = "buffer oauth">
         <p>
         <a href="/auth/google/callback" className ="btn btn-social btn-google">
