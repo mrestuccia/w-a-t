@@ -1,14 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { loadGroups } from '../../redux/reducers/groupReducer';
+import { loadGroups, selectGroup } from '../../redux/reducers/groupReducer';
+import { loadFriends } from '../../redux/reducers/friendReducer';
 
-const GroupOption = ({ group }) => (
-  <option>{group.name}</option>
-);
+const GroupOption = ({ group }) => {
+  console.log('**gId',group.id)
+  return (
+  <option value={group.id}>{group.name}</option>
+)}
 
-const GroupSelector = ({ groups }) => (
+const GroupSelector = ({ groups, loadFriends }) => {
+  console.log('Groups',loadFriends)
+  return (
   <div>
-    <select>
+    <select onChange={(evt)=>loadFriends(evt.target.value)}>
       {
         groups.map(group => {
           return (
@@ -19,17 +24,21 @@ const GroupSelector = ({ groups }) => (
     </select>
 
   </div>  
-);
+)}    
 
 const mapDispatchToProps = (dispatch) => (
+
   {
-    loadGroups: () => dispatch(loadGroups(1))
+    loadFriends: (gId) => {
+    console.log('loadfriend on the page', gId) 
+    return dispatch(loadFriends(gId))}
   }
 );
 
 const mapStateToProps = (state) => (
   {
-    groups: state.groups
+    groups: state.groups,
+    group: state.group
   }
 );
 

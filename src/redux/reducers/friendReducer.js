@@ -18,6 +18,7 @@ const selectFriendSuccess = (friend) => ({
 
 // Axios Call
 const loadFriends = (gId)=> {
+  console.log('loadfried', gId)
   return (dispatch)=> {
     return axios.get(`/api/group/${gId}`)
       .then(response => {

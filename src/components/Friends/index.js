@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-//import { loadGroups } from '../../redux/reducers/groupReducer';
+import { loadGroups } from '../../redux/reducers/groupReducer';
+import { loadFriends } from '../../redux/reducers/friendReducer';
 
 const friendList = ({friends, group}) =>(
 	<div>
@@ -55,7 +56,7 @@ const friendList = ({friends, group}) =>(
 
 const mapDispatchToProps = (dispatch) => (
   {
-    loadFriends: () => dispatch(loadFriends(1))
+   loadFriends: (gId) => dispatch(loadFriends(gId))
   }
 );
 
