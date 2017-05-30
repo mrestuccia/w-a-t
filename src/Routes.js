@@ -5,10 +5,10 @@ import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 
 import Layout from './components/Layout';
 import Home from './components/Home';
-import Login from './components/LoginPage'; 
+import Login from './components/LoginPage';
 import { exchangeTokenForUser } from './actions/loginActions.js';
 import { loadGroups } from './redux/reducers/groupReducer';
-import { loadFriends } from './redux/reducers/friendReducer'
+import { loadFriends } from './redux/reducers/friendReducer';
 
 
 const Routes = ({ bootstrap })=> {
@@ -16,7 +16,7 @@ const Routes = ({ bootstrap })=> {
     <Router history={ hashHistory } onEnter={ bootstrap() }>
       <Route path='/' component={ Layout }>
         <IndexRoute component={ Home } />
-        <Route path="/login" component = {Login}/>
+        <Route path="/login" component = {Login} />
       </Route>
     </Router>
   );

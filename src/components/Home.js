@@ -1,26 +1,36 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Map from './Map';
+import { updateLocation } from '../actions/loginActions';
 
+import Map from './Map';
 import GroupSelector from './Group/Group.js';
-import FriendList from './Friends'
+import FriendList from './Friends';
 
 class Home extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
+    const { user, updateLocation } = this.props;
     return (
       <div id='myApp'>
         <div className='w3-container w3-card'>
-          <button type='button' className='btn-primary btn-xs' style={{ float: 'right', marginRight: '20px' }}>Switch UI View</button>
-          <Map />
-           <GroupSelector />
-           <FriendList />
+          <Map updateLocation = {updateLocation} />
+          <GroupSelector />
+          <FriendList />
         </div>
-        
-       
       </div>
     )
   }
 }
+
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateLocation: (coordinates) => dispatch(updateLocation(coordinates)),
+  };
+};
+
 
 const mapStateToProps = (store) => {
   return {
@@ -28,5 +38,5 @@ const mapStateToProps = (store) => {
   }
 }
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
