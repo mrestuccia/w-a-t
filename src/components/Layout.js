@@ -11,6 +11,8 @@ import MenuItem from 'material-ui/MenuItem' ;
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import Drawer from 'material-ui/Drawer';
+import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
+import Divider from 'material-ui/Divider';
 
 
 const muiTheme = getMuiTheme({
@@ -51,8 +53,14 @@ class Layout extends Component {
         <Drawer open={this.state.open} docked={false} onRequestChange={(open) => this.setState({open})}>
               <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'none' : 'block'}}><Link to='/login'>Log In</Link> </MenuItem>
               <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'block' : 'none'}}>Hi {user.name}!</MenuItem>
-              <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'block' : 'none'}}>Group: Family</MenuItem>
-              <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'block' : 'none'}}>Switch Group</MenuItem>
+               <Divider />
+              <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'block' : 'none'}} primaryText="Group:Family" checked={true} rightIcon={<ArrowDropRight/>}
+              menuItems={[
+                <MenuItem primaryText="Family" checked={true}/>,
+                <MenuItem primaryText="FullStack Friends"  />,
+                <MenuItem primaryText="Co-worker" />,
+              ]}
+              />
               <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'block' : 'none'}}>Create a Group</MenuItem>
               <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'block' : 'none'}}>Edit the Group</MenuItem>
               <MenuItem onTouchTap={this.closeMenu} onClick={logout} style={{display: user.id ? 'block' : 'none'}}>Log Out</MenuItem>
