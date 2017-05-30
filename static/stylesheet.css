@@ -1,3 +1,33 @@
-.header{
-        font-family: Audiowide
-    }
+body {
+  margin: 0;
+  font-size: 16px;
+}
+
+a {
+  color: #00bcd4;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.4s;
+}
+
+form {
+  box-sizing: border-box;
+  width: 300px;
+  margin: 50px auto 0;
+  box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);
+  padding-bottom: 40px;
+  border-radius: 3px;
+}
+
+.w3-container{
+    margin:35px
+}
+.container {
+  margin: 0 auto;
+  text-align: center;
+  width: 700px;
+}
+
+.card-heading {
+    padding:16px;
+}

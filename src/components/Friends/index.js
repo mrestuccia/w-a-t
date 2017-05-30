@@ -6,7 +6,6 @@ import { loadFriends } from '../../redux/reducers/friendReducer';
 const friendList = ({friends, group}) =>(
 	<div>
 		<h5>Friend List</h5>
-
 		<div className='w3-container' style={{margin:'auto'}}>
           <div className='w3-cell-row'>
             <table id="FriendsModal" className="table table-hover table-condensed" style={{maxWidth:'300px'}}>
