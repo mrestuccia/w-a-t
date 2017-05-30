@@ -20,6 +20,9 @@ const muiTheme = getMuiTheme({
   },
 });
 
+
+
+
 class Layout extends Component {
   constructor(props) {
     super(props);
@@ -42,7 +45,7 @@ class Layout extends Component {
 
   render() {
 
-    const { children, products, user, logout } = this.props;
+    const { children, user, logout } = this.props;
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
       <div className='header'>
