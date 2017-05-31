@@ -44,7 +44,7 @@ class Login extends Component {
         </form>
         <div className="buffer oauth">
           <p>
-            <a href="/api/auth/google" className="btn btn-social btn-google">
+            <a href="/auth/google" className="btn btn-social btn-google">
               <i className="fa fa-google" />
               <span>Sign In With Google</span>
             </a>
