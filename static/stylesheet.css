@@ -1,3 +1,60 @@
-.header{
-        font-family: Audiowide
-    }
+body {
+  margin: 0;
+  font-size: 16px;
+}
+
+a {
+  color: #00bcd4;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.4s;
+}
+
+form {
+  /*box-sizing: border-box;*/
+  width: 350px;
+  margin: 50px auto 0;
+  /*box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2);*/
+  padding-bottom: 40px;
+  border-radius: 3px;
+}
+
+.w3-container{
+    margin:35px
+}
+.container {
+  margin: 0 auto;
+  text-align: center;
+  width: 700px;
+}
+
+.card-heading {
+    padding:16px;
+}
+.btn-social {
+  text-align: center;
+  width: 100%;
+}
+
+.buffer {
+  margin: 1.5em 0.8em;
+}
+
+.oauth {
+  max-width: 18em;
+}
+
+.back-line {
+  line-height: 0;
+  border-bottom: 1px dotted #999;
+  text-align: center;
+}
+
+.back-line > span {
+  background: #fff;
+  color: #999;
+  padding: 0.5em;
+  border: 1px dotted #999;
+  border-radius: 50%;
+}
+
