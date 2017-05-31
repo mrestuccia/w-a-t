@@ -6,8 +6,7 @@ import { Card, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton' ;
 import TextField from 'material-ui/TextField';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import FlatButton from 'material-ui/FlatButton';
-import IconButton from 'material-ui/IconButton';
+
 
 
 class Login extends Component {
@@ -19,8 +18,6 @@ class Login extends Component {
      };
      this.onChange = this.onChange.bind(this);
      this.onSubmit = this.onSubmit.bind(this);
-     this.onRaiseButton = this.onRaiseButton.bind(this);
-   
   }
 
   onSubmit(event) {
@@ -38,26 +35,21 @@ class Login extends Component {
   render() {
     return ( 
     <div>
-
-      
           <form >
             <TextField hintText="Enter your Username" floatingLabelText="Username" value={this.state.name} onChange = {(event,newValue) => this.setState({name:newValue})}/>
             <br/>
             <TextField hintText="Enter your Password" floatingLabelText="Password" value={this.state.password} onChange = {(event,newValue) => this.setState({password:newValue})}/>
             <br/>
-            <div>
-            <FlatButton label="Login" primary={true} disabled={ this.state.name.length === 0 || this.state.password.length === 0} onClick={this.onSubmit}/>
-            </div>
-                
+            <RaisedButton label="Login" primary={true} disabled={ this.state.name.length === 0 || this.state.password.length === 0} onClick={this.onSubmit}/>
         </form>
-           <div className = "buffer oauth">
-               <p>
-                <a href="/auth/google/callback" className ="btn btn-social btn-google">
-                  <i className="fa fa-google" />
-                    <span>Sign In with Google</span>
-                </a>
-              </p>
-          </div>
+        <div className="buffer oauth">
+          <p>
+            <a href="/api/auth/google" className="btn btn-social btn-google">
+              <i className="fa fa-google" />
+              <span>Sign In With Google</span>
+            </a>
+          </p>
+        </div>
        
   
      </div>
