@@ -34,8 +34,8 @@ const seed = () => {
             name: user.name,
             email: user.email,
             password: user.name.toUpperCase(),
-            lat: faker.address.latitude(),
-            long: faker.address.longitude()
+            lat: faker.finance.amount(40.75,40.76,5),
+            long: faker.finance.amount(-73.95,-74.04,5)
           });
         }));
       return Promise.all(promises);

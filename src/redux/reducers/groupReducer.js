@@ -27,7 +27,7 @@ const groupReducer = (state=[], action)=> {
       break;
   }
 
-  console.log('group',state);
+  // console.log('group',state);
   return state;
 };
 

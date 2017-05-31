@@ -5,6 +5,7 @@ import { updateLocation } from '../actions/loginActions';
 import Map from './Map';
 import GroupSelector from './Group/Group.js';
 import FriendList from './Friends';
+import SimpleMap from './SimpleMap';
 
 class Home extends Component {
   constructor(props) {
@@ -15,7 +16,7 @@ class Home extends Component {
     return (
       <div id='myApp'>
         <div className='w3-container w3-card'>
-          <Map updateLocation = {updateLocation} />
+          <SimpleMap updateLocation = {updateLocation} />
           <GroupSelector />
           <FriendList />
         </div>
