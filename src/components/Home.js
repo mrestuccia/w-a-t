@@ -15,11 +15,9 @@ class Home extends Component {
     const { user, updateLocation } = this.props;
     return (
       <div id='myApp'>
-        <div className='w3-container w3-card'>
           <SimpleMap updateLocation = {updateLocation} />
           <GroupSelector />
           <FriendList />
-        </div>
       </div>
     )
   }
