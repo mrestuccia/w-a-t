@@ -48,6 +48,7 @@ const seed = () => {
       UserGroup.create({ userId: user2.id, groupId: group1.id, status: 'confirmed' });
       UserGroup.create({ userId: user3.id, groupId: group1.id, status: 'confirmed' });
       UserGroup.create({ userId: user3.id, groupId: group2.id, status: 'confirmed' });
+      UserGroup.create({ userId: user4.id, groupId: group1.id, status: 'confirmed' });
       UserGroup.create({ userId: user4.id, groupId: group2.id, status: 'confirmed' });
       UserGroup.create({ userId: user1.id, groupId: group3.id, status: 'confirmed' });
 
