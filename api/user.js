@@ -69,8 +69,6 @@ router.put('/:token', (req, res, next) => {
   if (!location && !location.lat && !location.lat && !decoded.id ) return res.sendStatus(404);
 
 
-  console.log('token resolved-->', decoded.id)
-
   // Find the user
   models.User.findOne({
     where: {
