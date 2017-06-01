@@ -29,15 +29,16 @@ passport.use(
         
   },
   function(accessToken, refreshToken, profile, done) {
-console.log('hello google email!!!',profile.emails[0].value);
+console.log('hello google !!!', profile.photos[0].value);
     db.models.User.findOne({ where: { googleId: profile.id }})
     .then(function (user) {
       if(user)
         return user;
       return db.models.User.create({
         name: profile.name.givenName,
-        email:profile.emails[0].value,
-        googleId: profile.id
+        email: profile.emails[0].value,
+        googleId: profile.id,
+        photo: profile.photos[0].value
       });
     })
       .then(function(user){

@@ -11,6 +11,7 @@ const User = conn.define('user', {
   },
   password: conn.Sequelize.STRING,
   googleId: conn.Sequelize.STRING,
+  photo:conn.Sequelize.STRING,
   lat: conn.Sequelize.FLOAT,
   long: conn.Sequelize.FLOAT,
   lastUpdate: conn.Sequelize.DATE
