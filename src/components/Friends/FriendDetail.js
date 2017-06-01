@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 //import { loadGroups } from '../../redux/reducers/groupReducer';
 
 
-const friendDetail = ({friend}) =>{
+const FriendDetail = ({friend}) =>{
   console.log('detail', friend)
   return (
     <div>
@@ -25,5 +25,5 @@ const mapStateToProps = (state) => (
   }
 );
 
-export default connect(mapStateToProps, mapDispatchToProps)(friendDetaial);
+export default connect(mapStateToProps, mapDispatchToProps)(FriendDetail);
 
