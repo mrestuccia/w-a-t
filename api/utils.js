@@ -1,3 +1,8 @@
+const helper = require('sendgrid').mail;
+const jwt = require('jwt-simple');
+const JWT_SECRET = process.env.JWT_SECRET || 'foo';
+
+
 const sendEmail = (user, group) => {
 
   try {
@@ -8,7 +13,7 @@ const sendEmail = (user, group) => {
     var serverURL = process.env.SERVER_URL;
     var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
 
-    console.log('serverURL = ', serverURL);
+    console.log('serverURL = ', sg);
 
     var jwtToken = jwt.encode({ id: user.id, groupid: group.id }, JWT_SECRET);
     var html = `<body>Heyo! user invited to you join to his group in WAT.<br/><a href='${serverURL}/api/userGroup/${jwtToken}/join'>Click here to join</a></body>`;

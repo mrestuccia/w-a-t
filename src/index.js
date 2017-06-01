@@ -6,6 +6,7 @@ import Routes from './Routes';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
+
 //for oauth
 if(document.location.search.indexOf('token=') === 1){
   const token = document.location.search.slice(1).split('&')[0].split('token=')[1];

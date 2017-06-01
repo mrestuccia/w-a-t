@@ -4,22 +4,29 @@ import axios from 'axios';
 // Action Constants
 const LOAD_FRIENDS_SUCCESS = 'LOAD_FRIENDS_SUCCESS';
 const SELECT_FRIEND_SUCCESS = 'SELECT_FRIEND_SUCCESS';
+const ADD_FRIEND_SUCCESS = 'ADD_FRIEND_SUCCESS';
 
 // Action Creator
-const loadFriendsSuccess = (friends)=> ({
+const loadFriendsSuccess = (friends) => ({
   type: LOAD_FRIENDS_SUCCESS,
   friends: friends
 });
 
 const selectFriendSuccess = (friend) => ({
-	type: SELECT_FRIEND_SUCCESS,
-	friend: friend
-})
+  type: SELECT_FRIEND_SUCCESS,
+  friend: friend
+});
+
+const addFriendSuccess = (friend) => ({
+  type: ADD_FRIEND_SUCCESS,
+  friend: friend
+});
+
 
 // Axios Call
-const loadFriends = (gId)=> {
+const loadFriends = (gId) => {
   // console.log('loadfried', gId)
-  return (dispatch)=> {
+  return (dispatch) => {
     return axios.get(`/api/group/${gId}`)
       .then(response => {
         // console.log('friendlist', response.data)
@@ -28,22 +35,39 @@ const loadFriends = (gId)=> {
   };
 };
 
-const selectFriend = (gId, uId)=> {
-	return (dispatch) => {
-		return axios.get(`/api/group/${gId}/${uId}`)
-		.then( response => dispatch(selectFriendSuccess(response.data)))
-	}
+const selectFriend = (gId, uId) => {
+  return (dispatch) => {
+    return axios.get(`/api/group/${gId}/${uId}`)
+      .then(response => dispatch(selectFriendSuccess(response.data)));
+  }
 }
 
 
+const addFriend = (gId, state) => {
+  return (dispatch) => {
+    console.log('addFriend', gId, state);
+    return axios.post(`/api/userGroup/${gId}`, state )
+      .then(response => {
+        dispatch(addFriendSuccess(response.data));
+      })
+      .catch(e => console.log('Error addFriend: ', e));
+  };
+};
+
+
 // Reducer
-const friendReducer = (state=[], action)=> {
-  switch(action.type){
+const friendReducer = (state = [], action) => {
+  switch (action.type) {
     case LOAD_FRIENDS_SUCCESS:
       state = action.friends;
       break;
     case SELECT_FRIEND_SUCCESS:
-    	state = action.friend  
+      state = action.friend;
+      break;
+    case ADD_FRIEND_SUCCESS:
+      console.log('adding...', action.friend);
+      state = [...state, action.friend];
+      break;
   }
 
   return state;
@@ -51,12 +75,8 @@ const friendReducer = (state=[], action)=> {
 
 
 export {
-  loadFriends, selectFriend
+  loadFriends, selectFriend, addFriend
 };
 
 
 export default friendReducer;
-
-
-
-

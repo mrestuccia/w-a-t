@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { loadGroups } from '../../redux/reducers/groupReducer';
 import { loadFriends } from '../../redux/reducers/friendReducer';
 
+
+
 const friendList = ({friends, group}) =>(
 	<div>
 		<h5>Friend List</h5>
@@ -46,6 +48,7 @@ const friendList = ({friends, group}) =>(
                 </tr>
               </tbody>
             </table>
+           
           </div>
         </div>
 
