@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateLocation } from '../actions/loginActions';
 
-import Map from './Map';
 import GroupSelector from './Group/Group.js';
 import FriendList from './Friends';
 import SimpleMap from './SimpleMap';
