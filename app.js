@@ -3,7 +3,7 @@ const path = require('path');
 const app = express();
 const clientID = require('./config.js').clientID;
 const clientSecret = require('./config.js').clientSecret;
-const callbackURL = require('./config.js').callbackURL;
+const callbackURL = process.env.callbackURL || require('./config.js').callbackURL;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy ;
 const jwt = require('jwt-simple');
 const router = require ('express').Router();
@@ -53,7 +53,7 @@ app.get('/', (req, res, next) => res.sendFile(path.join(__dirname, 'index.html')
 
 
 
- app.get('/auth/google', passport.authenticate('google', {
+app.get('/auth/google', passport.authenticate('google', {
     scope: ['profile', 'email'],
     session: false
   }));
