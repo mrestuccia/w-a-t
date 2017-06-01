@@ -1,19 +1,15 @@
 const router = require('express').Router();
-const helper = require('sendgrid').mail;
 const jwt = require('jwt-simple');
 const JWT_SECRET = process.env.JWT_SECRET || 'foo';
 
 const models = require('../db').models;
 const sendEmail = require('./utils');
 
-
-
 // GET
 // Join with Token is the confirmation
 // that the user accepted the invitation.
 // Ex: http://localhost:3000/userGroup/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwiZ3JvdXBpZCI6N30.U6TN8SWGay6fGH_g4nuArZGx51l3nE2P6u0WLldFelw/join
 router.get('/:token/join', (req, res, next) => {
-  // TODO: Integrate this with Join screen
   const token = req.params.token;
   let decoded = jwt.decode(token, JWT_SECRET);
   console.log('decoded:', decoded);
@@ -24,6 +20,7 @@ router.get('/:token/join', (req, res, next) => {
 // POST
 // Adding a Friend to a group
 router.post('/:groupId', (req, res, next) => {
+  console.log('userGroup', req.params.groupId, req.body);
   const friend = req.body;
   let user = {};
 
@@ -48,10 +45,18 @@ router.post('/:groupId', (req, res, next) => {
         // add the user to the group
         return models.UserGroup.create({ userId: user.id, groupId: req.params.groupId });
       })
-      .then(userGroup => {
+      .then(_userGroup => {
         // notify the user via email
-        sendEmail(user, userGroup);
-        res.status(200).send(userGroup);
+        sendEmail(user, _userGroup);
+       
+        return models.UserGroup.findOne(
+          {
+            include: [{ model: models.User }],
+            where: { groupId: _userGroup.groupId, userId: _userGroup.userId }
+          });
+        })
+      .then(userGroup => {
+        res.send(userGroup);
       });
   }
 });

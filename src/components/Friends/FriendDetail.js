@@ -25,5 +25,5 @@ const mapStateToProps = (state) => (
   }
 );
 
-export default connect(mapStateToProps, mapDispatchToProps)(friendDetaial);
+export default connect(mapStateToProps, mapDispatchToProps)(friendDetail);
 
