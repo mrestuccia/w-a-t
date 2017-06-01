@@ -2,7 +2,8 @@
 import axios from 'axios';
 
 import { loginUserSuccess, logoutSuccess, locationSuccess } from './userActionTypes';
-
+import { loadGroups } from '../redux/reducers/groupReducer';
+import { loadFriends } from '../redux/reducers/friendReducer';
 
 const exchangeTokenForUser = () => {
   return (dispatch) => {
@@ -37,6 +38,10 @@ const login = (credentials) => {
         return response.data;
       })
       .then(() => dispatch(exchangeTokenForUser()))
+      .then(user => {
+        dispatch(loadGroups(user.id));
+        dispatch(loadFriends(user.id));
+      })
       .catch((er) => {
         console.log('test error!!!', er);
         localStorage.removeItem('token');
@@ -62,8 +67,8 @@ const updateLocation = (coordinates) => {
     return axios.put(`/api/user/${token}`, coordinates)
       .then(response => response.data)
       .then(() => {
-          dispatch(locationSuccess(coordinates));
-          return Promise.resolve();
+        dispatch(locationSuccess(coordinates));
+        return Promise.resolve();
       });
   };
 };

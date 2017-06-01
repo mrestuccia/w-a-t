@@ -3,7 +3,7 @@ const path = require('path');
 const app = express();
 const clientID = require('./config.js').clientID;
 const clientSecret = require('./config.js').clientSecret;
-const callbackURL = require('./config.js').callbackURL;
+const callbackURL = process.env.callbackURL || require('./config.js').callbackURL;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy ;
 const jwt = require('jwt-simple');
 const router = require ('express').Router();
@@ -29,15 +29,16 @@ passport.use(
         
   },
   function(accessToken, refreshToken, profile, done) {
-console.log('hello google email!!!',profile.emails[0].value);
+console.log('hello google !!!', profile.photos[0].value);
     db.models.User.findOne({ where: { googleId: profile.id }})
     .then(function (user) {
       if(user)
         return user;
       return db.models.User.create({
         name: profile.name.givenName,
-        email:profile.emails[0].value,
-        googleId: profile.id
+        email: profile.emails[0].value,
+        googleId: profile.id,
+        photo: profile.photos[0].value
       });
     })
       .then(function(user){
@@ -53,7 +54,7 @@ app.get('/', (req, res, next) => res.sendFile(path.join(__dirname, 'index.html')
 
 
 
- app.get('/auth/google', passport.authenticate('google', {
+app.get('/auth/google', passport.authenticate('google', {
     scope: ['profile', 'email'],
     session: false
   }));

@@ -2,9 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { loadGroups } from '../../redux/reducers/groupReducer';
 import { loadFriends } from '../../redux/reducers/friendReducer';
-
-//import FriendDetail from './';
-
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn, } from 'material-ui/Table';
 import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';

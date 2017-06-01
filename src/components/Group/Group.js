@@ -4,13 +4,13 @@ import { loadGroups, selectGroup } from '../../redux/reducers/groupReducer';
 import { loadFriends } from '../../redux/reducers/friendReducer';
 
 const GroupOption = ({ group }) => {
-  console.log('**gId',group.id)
+  // console.log('**gId',group.id)
   return (
   <option value={group.id}>{group.name}</option>
 )}
 
 const GroupSelector = ({ groups, loadFriends }) => {
-  console.log('Groups',loadFriends)
+  // console.log('Groups',loadFriends)
   return (
   <div>
     <select onChange={(evt)=>loadFriends(evt.target.value)}>
@@ -30,7 +30,7 @@ const mapDispatchToProps = (dispatch) => (
 
   {
     loadFriends: (gId) => {
-    console.log('loadfriend on the page', gId) 
+    // console.log('loadfriend on the page', gId) 
     return dispatch(loadFriends(gId))}
   }
 );

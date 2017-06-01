@@ -6,11 +6,15 @@ import { logout } from '../actions/loginActions';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import AppBar from 'material-ui/AppBar';
-import IconMenu from 'material-ui/IconMenu' ;
-import MenuItem from 'material-ui/MenuItem' ;
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import Drawer from 'material-ui/Drawer';
+import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
+import Divider from 'material-ui/Divider';
+import Dialog from 'material-ui/Dialog';
 
 
 const muiTheme = getMuiTheme({
@@ -20,6 +24,21 @@ const muiTheme = getMuiTheme({
   },
 });
 
+const RightMenu = () => (
+  
+  <IconMenu
+  iconButtonElement={
+      <IconButton><MoreVertIcon /></IconButton>
+    }
+    targetOrigin={{horizontal: 'right', vertical: 'top'}}
+    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+  >
+    <MenuItem primaryText="Invite a Friend"/>
+    <MenuItem primaryText="Leave the Group" />
+  </IconMenu>
+)
+
+RightMenu.muiName = "IconMenu" ;
 
 
 
@@ -35,11 +54,11 @@ class Layout extends Component {
 
   toggleMenu(e) {
     e.preventDefault();
-    this.setState({open: !this.state.open});
+    this.setState({ open: !this.state.open });
   }
 
   closeMenu() {
-    this.setState({open: false});
+    this.setState({ open: false });
   }
 
 
@@ -50,33 +69,37 @@ class Layout extends Component {
       <MuiThemeProvider muiTheme={muiTheme}>
       <div className='header'>
         {/*<AppBar title='Where Are They' iconElementLeft={ !user.id ? <Link to='/login'>Login</Link>: <Menu user={user}  />} />*/}
-        <AppBar style={{fontFamily:'Audiowide'}} title='Where Are They' onLeftIconButtonTouchTap={this.toggleMenu} />
+        <AppBar style={{fontFamily:'Audiowide'}} title='Where Are They' onLeftIconButtonTouchTap={this.toggleMenu} iconElementRight={ !user.id? <IconButton/>:<RightMenu/>}/>
         <Drawer open={this.state.open} docked={false} onRequestChange={(open) => this.setState({open})}>
               <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'none' : 'block'}}><Link to='/login'>Log In</Link> </MenuItem>
               <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'block' : 'none'}}>Hi {user.name}!</MenuItem>
-              <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'block' : 'none'}}>Group: Family</MenuItem>
-              <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'block' : 'none'}}>Switch Group</MenuItem>
+               <Divider />
+              <MenuItem style={{display: user.id ? 'block' : 'none'}} primaryText="Group:Family" checked={true} rightIcon={<ArrowDropRight/>}
+              menuItems={[
+                <MenuItem primaryText="Family" checked={true}/>,
+                <MenuItem primaryText="FullStack Friends"  />,
+                <MenuItem primaryText="Co-worker" />,
+              ]}
+              />
               <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'block' : 'none'}}>Create a Group</MenuItem>
               <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'block' : 'none'}}>Edit the Group</MenuItem>
               <MenuItem onTouchTap={this.closeMenu} onClick={logout} style={{display: user.id ? 'block' : 'none'}}>Log Out</MenuItem>
           </Drawer>
-        {<a onClick = {logout}>LogOut ({user.name}) </a>}
-        {children}
-      </div> 
+          {children}
+        </div>
       </MuiThemeProvider>
     );
   }
 }
 
 
-const mapStateToProps = ({ groups, user})=>(
+const mapStateToProps = ({ groups, user }) => (
   { groups, user }
 );
 
-const mapDispatchToProps = (dispatch)=> {
+const mapDispatchToProps = (dispatch) => {
   return {
-    logout: ()=> dispatch(logout())
-                    .then(()=> hashHistory.push('/'))
+    logout: () => dispatch(logout()).then(() => hashHistory.push('/login'))
   };
 };
 

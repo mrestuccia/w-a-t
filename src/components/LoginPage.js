@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { Link, hashHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { login, logout} from '../actions/loginActions';
+import { Card, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton' ;
+import TextField from 'material-ui/TextField';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 
 
 class Login extends Component {
@@ -12,13 +16,11 @@ class Login extends Component {
        name: '',
        password: ''
      };
-
      this.onChange = this.onChange.bind(this);
      this.onSubmit = this.onSubmit.bind(this);
   }
 
   onSubmit(event) {
-    
     event.preventDefault();
     this.props.login(this.state);
   }
@@ -29,29 +31,51 @@ class Login extends Component {
     this.setState(change);
   }
 
+
   render() {
-    return (
-      <div>
-        <div className='buffer local'>
-      <form onSubmit={this.onSubmit} className='well'>
-        <div className='form-group'>
-          <input value={ this.state.name } className='form-control' name='name' onChange={ this.onChange }/>
-        </div>
-        <div className='form-group'>
-          <input value={ this.state.password } className='form-control' name='password' onChange={ this.onChange }/>
-        </div>
-        <button className='btn btn-primary' onClick={ login } disabled={ this.state.name.length === 0 || this.state.password.length === 0}>Login</button>
-      </form>
-      </div>
-      <RaisedButton>I'M HERE</RaisedButton>
-      <div className = "buffer oauth">
-        <p>
-        <a href="/auth/google/callback" className ="btn btn-social btn-google">
-        <span>Sign In with Google</span>
-        </a>
-        </p>
-        </div>
-      </div>
+    return ( 
+    <div>
+          <form >
+            <div className="social-box">
+              <div className="row">
+                <div className="social-row">
+                  <a href="/auth/google" className="btn btn-block btn-social btn-google">
+                  <i className="fa fa-google"></i>
+                  Sign In With Google
+                  </a>
+                  </div>
+               </div>
+               <br/>
+               <div className="row">
+              <div className="social-row">
+                <a href="#" className="btn btn-block btn-social btn-facebook" >
+                  <i className="fa fa-facebook" />Sign In with FaceBook
+                  </a>
+              </div>
+            </div>
+          </div>
+            <div className="main">
+            <TextField hintText="  Enter your Username" floatingLabelText="  Username" value={this.state.name} onChange = {(event,newValue) => this.setState({name:newValue})}/>
+            <br/>
+            <TextField hintText="  Enter your Password" floatingLabelText="  Password" value={this.state.password} onChange = {(event,newValue) => this.setState({password:newValue})}/>
+            <br/>
+            <br/>
+            <span className="clearfix"/>
+              </div>
+              <div className="login-footer">
+                <div className="row">
+                  <div className="col-md-6 col-xs-6">
+                    <div className="left-section">
+                      <a href="">Forgot your password?</a>
+                    </div>
+                  </div>
+                <div className="col-md-6 col-xs-6 pull-right">
+                  <RaisedButton label="Login" primary={true} disabled={ this.state.name.length === 0 || this.state.password.length === 0} onClick={this.onSubmit}/>
+                </div>
+              </div>
+              </div>           
+        </form>
+     </div>
   );
   }
 }

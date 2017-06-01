@@ -34,8 +34,8 @@ const seed = () => {
             name: user.name,
             email: user.email,
             password: user.name.toUpperCase(),
-            lat: faker.address.latitude(),
-            long: faker.address.longitude()
+            lat: faker.finance.amount(40.75,40.76,5),
+            long: faker.finance.amount(-73.95,-74.04,5)
           });
         }));
       return Promise.all(promises);
@@ -48,6 +48,7 @@ const seed = () => {
       UserGroup.create({ userId: user2.id, groupId: group1.id, status: 'confirmed' });
       UserGroup.create({ userId: user3.id, groupId: group1.id, status: 'confirmed' });
       UserGroup.create({ userId: user3.id, groupId: group2.id, status: 'confirmed' });
+      UserGroup.create({ userId: user4.id, groupId: group1.id, status: 'confirmed' });
       UserGroup.create({ userId: user4.id, groupId: group2.id, status: 'confirmed' });
       UserGroup.create({ userId: user1.id, groupId: group3.id, status: 'confirmed' });
 

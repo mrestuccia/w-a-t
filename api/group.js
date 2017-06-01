@@ -1,16 +1,12 @@
 const router = require('express').Router();
-const helper = require('sendgrid').mail;
-const jwt = require('jwt-simple');
-const JWT_SECRET = process.env.JWT_SECRET || 'foo';
-
 const models = require('../db').models;
 
+
 // This is the API for anything related to the group
-// Show all users that belongs to a groupId
 
 
 // GET
-// Get all the User in a particular group
+// Get all the Users in a particular group
 router.get('/:id', (req, res, next) => {
   const _groupId = req.params.id;
 
@@ -30,21 +26,6 @@ router.get('/:id', (req, res, next) => {
     })
     .catch(next);
 });
-
-
-// GET
-// Join with Token is the confirmation
-// that the user accepted the invitation.
-// Ex: http://localhost:3000/group/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NSwiZ3JvdXBpZCI6N30.U6TN8SWGay6fGH_g4nuArZGx51l3nE2P6u0WLldFelw/join
-router.get('/:token/join', (req, res, next) => {
-  // TODO: Integrate this with Join screen
-  const token = req.params.token;
-  let decoded = jwt.decode(token, JWT_SECRET);
-  console.log('decoded:', decoded);
-  res.send(decoded);
-});
-
-
 
 // GET
 // Selected friend
@@ -71,88 +52,75 @@ router.get('/:gId/:uId', (req, res, next) => {
 
 });
 
-// POST
-// Add the friend to the group
-// Note: you need to have the SEND_GRID_API_KEY installed
-
-const sendEmail = (user, group) => {
-
-
-  try {
-    var fromEmail = new helper.Email('hi@wat.com');
-    var toEmail = new helper.Email('mrestuccia@mac.com');
-    var subject = 'WAT - Invitation to join group';
-
-    var serverURL = process.env.SERVER_URL;
-    var sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
-
-    console.log('serverURL = ', serverURL);
-
-    var jwtToken = jwt.encode({ id: user.id, groupid: group.id }, JWT_SECRET);
-    var html = `<body>Heyo! user invited to you join to his group in WAT.<br/><a href='${serverURL}/api/group/${jwtToken}/join'>Click here to join</a></body>`;
-
-    console.log('html', html);
-    var content = new helper.Content('text/html', html);
-
-    var mail = new helper.Mail(fromEmail, subject, toEmail, content);
-
-
-    var request = sg.emptyRequest({
-      method: 'POST',
-      path: '/v3/mail/send',
-      body: mail.toJSON()
-    });
-
-    sg.API(request, function (error, response) {
-      if (error) {
-        console.log('Error response received');
-      }
-      console.log(response.statusCode);
-      console.log(response.body);
-      console.log(response.headers);
-    });
-
-  } catch (e) {
-    //ignore
-  }
-};
-
-
-router.post('/:id', (req, res, next) => {
-  const friend = req.body;
-  let user = {};
-
-  if (!friend.email) {
+// Group CRUD functions
+// Add Group
+router.post('/:userId', (req, res, next) => {
+  if (!req.body.name || !req.params.userId) {
     return res.sendStatus(404);
   } else {
-    // Find to see if already exist
-    models.User.findOne({
-      where: {
-        email: friend.email
-      }
-    })
-      .then(user => {
-        if (!user) {
-          // Create the user
-          return models.User.create({ name: friend.name, email: friend.email });
-        }
-        return user;
-      })
-      .then(_user => {
-        user = _user;
-        // add the user to the group
-        return models.UserGroup.create({ userId: user.id, groupId: req.params.id });
+    // Create the group
+    models.Group.create({ name: req.body.name })
+      .then(group => {
+        // add yourself to the group
+        return models.UserGroup.create({ userId: req.params.userId, groupId: group.id });
       })
       .then(userGroup => {
-        // notify the user via email
-        sendEmail(user, userGroup);
-
-      });
+        // reply to the user.
+        res.status(200).send(userGroup);
+      })
+      .catch(next);
   }
+});
 
 
-  res.send();
+// Remove group:
+// 1. Remove myself
+// 2. If empty, delete the group
+router.delete('/:groupId/:userId', (req, res, next) => {
 
+  if (!req.params.groupId || !req.params.userId) {
+    return res.sendStatus(404);
+  } else {
+    // Delete myself from the group
+    models.UserGroup.destroy({ where: { userId: req.params.userId, groupId: req.params.groupId } })
+      .then(count => {
+        if (count === 0) {
+          return res.sendStatus(404)
+        } else {
+          return models.UserGroup.count({ where: { groupId: req.params.groupId } })
+        }
+      })
+      .then(count => {
+        if (count === 0) {
+          return models.Group.destroy({ where: { groupId: req.params.groupId } })
+        }
+        return count;
+      })
+      .then(count => {
+        res.status(200).send(count);
+      })
+      .catch(next);
+  }
+});
+
+// Update Group
+router.put('/:groupId/:userId', (req, res, next) => {
+  const info = req.body;
+
+  if (!req.params.groupId || !req.params.userId && !info) {
+    return res.sendStatus(404);
+  } else {
+    models.Group.findById(req.params.groupId )
+      .then(group => {
+        if (!group) return res.sendStatus(404);
+        group.name = info.name;
+        return group.save();
+      })
+      .then(group => {
+        res.status(200).send(group);
+      })
+      .catch(next);
+  }
 });
 
 
