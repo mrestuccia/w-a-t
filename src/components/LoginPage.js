@@ -36,18 +36,49 @@ class Login extends Component {
     return ( 
     <div>
           <form >
-            <TextField hintText="Enter your Username" floatingLabelText="Username" value={this.state.name} onChange = {(event,newValue) => this.setState({name:newValue})}/>
+            <div className="social-box">
+              <div className="row">
+                <div className="social-row">
+                  <a href="/auth/google" className="btn btn-block btn-social btn-google">
+                  <i className="fa fa-google"></i>
+                  Sign In With Google
+                  </a>
+                  </div>
+               </div>
+               <br/>
+               <div className="row">
+              <div className="social-row">
+                <a href="#" className="btn btn-block btn-social btn-facebook" >
+                  <i className="fa fa-facebook" />Sign In with FaceBook
+                  </a>
+              </div>
+            </div>
+          </div>
+            <div className="main">
+            <TextField hintText="  Enter your Username" floatingLabelText="  Username" value={this.state.name} onChange = {(event,newValue) => this.setState({name:newValue})}/>
             <br/>
-            <TextField hintText="Enter your Password" floatingLabelText="Password" value={this.state.password} onChange = {(event,newValue) => this.setState({password:newValue})}/>
+            <TextField hintText="  Enter your Password" floatingLabelText="  Password" value={this.state.password} onChange = {(event,newValue) => this.setState({password:newValue})}/>
             <br/>
-            <RaisedButton label="Login" primary={true} disabled={ this.state.name.length === 0 || this.state.password.length === 0} onClick={this.onSubmit}/>
+            <br/>
+            <span className="clearfix"/>
+              </div>
+              <div className="login-footer">
+                <div className="row">
+                  <div className="col-md-6 col-xs-6">
+                    <div className="left-section">
+                      <a href="">Forgot your password?</a>
+                    </div>
+                  </div>
+                <div className="col-md-6 col-xs-6 pull-right">
+                  <RaisedButton label="Login" primary={true} disabled={ this.state.name.length === 0 || this.state.password.length === 0} onClick={this.onSubmit}/>
+                </div>
+              </div>
+              </div>
+            
         </form>
         <div className="buffer oauth">
           <p>
-            <a href="/auth/google" className="btn btn-social btn-google">
-              <i className="fa fa-google" />
-              <span>Sign In With Google</span>
-            </a>
+            
           </p>
         </div>
        

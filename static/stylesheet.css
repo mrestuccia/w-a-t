@@ -33,28 +33,42 @@ form {
 }
 .btn-social {
   text-align: center;
+  position:relative;
+  padding-left:44px;
+  text-overflow:ellipsis;
   width: 100%;
 }
 
-.buffer {
-  margin: 1.5em 0.8em;
+.btn-google {
+  color:#fff;
+  background-color: #dd4b39
 }
 
-.oauth {
-  max-width: 18em;
+.fa{
+  display:incline-block;
+  text-rendering:auto;
+  -webkit-font-smoothing:antialiased;
 }
 
-.back-line {
-  line-height: 0;
-  border-bottom: 1px dotted #999;
-  text-align: center;
+i {
+  margin-right: 10px;
 }
 
-.back-line > span {
-  background: #fff;
-  color: #999;
-  padding: 0.5em;
-  border: 1px dotted #999;
-  border-radius: 50%;
+.btn-facebook {
+  color: #fff;
+  background-color:#3b5998;
 }
+
+.login-footer .left-section a {
+  font-weight: bold;
+  color: #8a8a8a;
+  line-height: 19px; }
+
+.social-row {
+    width:300;
+    position:relative;
+    padding-right:15px;
+    padding-left:15px;
+  }
+
 
