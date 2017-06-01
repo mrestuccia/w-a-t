@@ -73,16 +73,8 @@ class Login extends Component {
                   <RaisedButton label="Login" primary={true} disabled={ this.state.name.length === 0 || this.state.password.length === 0} onClick={this.onSubmit}/>
                 </div>
               </div>
-              </div>
-            
+              </div>           
         </form>
-        <div className="buffer oauth">
-          <p>
-            
-          </p>
-        </div>
-       
-  
      </div>
   );
   }

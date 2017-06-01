@@ -10,9 +10,11 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import Drawer from 'material-ui/Drawer';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 import Divider from 'material-ui/Divider';
+import Dialog from 'material-ui/Dialog';
 
 
 const muiTheme = getMuiTheme({
@@ -22,6 +24,21 @@ const muiTheme = getMuiTheme({
   },
 });
 
+const RightMenu = () => (
+  
+  <IconMenu
+  iconButtonElement={
+      <IconButton><MoreVertIcon /></IconButton>
+    }
+    targetOrigin={{horizontal: 'right', vertical: 'top'}}
+    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+  >
+    <MenuItem primaryText="Invite a Friend"/>
+    <MenuItem primaryText="Leave the Group" />
+  </IconMenu>
+)
+
+RightMenu.muiName = "IconMenu" ;
 
 
 
@@ -52,7 +69,7 @@ class Layout extends Component {
       <MuiThemeProvider muiTheme={muiTheme}>
       <div className='header'>
         {/*<AppBar title='Where Are They' iconElementLeft={ !user.id ? <Link to='/login'>Login</Link>: <Menu user={user}  />} />*/}
-        <AppBar style={{fontFamily:'Audiowide'}} title='Where Are They' onLeftIconButtonTouchTap={this.toggleMenu} />
+        <AppBar style={{fontFamily:'Audiowide'}} title='Where Are They' onLeftIconButtonTouchTap={this.toggleMenu} iconElementRight={ !user.id? <IconButton/>:<RightMenu/>}/>
         <Drawer open={this.state.open} docked={false} onRequestChange={(open) => this.setState({open})}>
               <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'none' : 'block'}}><Link to='/login'>Log In</Link> </MenuItem>
               <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'block' : 'none'}}>Hi {user.name}!</MenuItem>
