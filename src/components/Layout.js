@@ -57,7 +57,7 @@ class Layout extends Component {
               <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'none' : 'block'}}><Link to='/login'>Log In</Link> </MenuItem>
               <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'block' : 'none'}}>Hi {user.name}!</MenuItem>
                <Divider />
-              <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'block' : 'none'}} primaryText="Group:Family" checked={true} rightIcon={<ArrowDropRight/>}
+              <MenuItem style={{display: user.id ? 'block' : 'none'}} primaryText="Group:Family" checked={true} rightIcon={<ArrowDropRight/>}
               menuItems={[
                 <MenuItem primaryText="Family" checked={true}/>,
                 <MenuItem primaryText="FullStack Friends"  />,
