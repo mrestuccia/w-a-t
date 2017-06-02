@@ -25,7 +25,7 @@ const iconButtonElement = (
 
 const rightIconMenu = (
   <IconMenu iconButtonElement={iconButtonElement}>
-    <MenuItem>Notif me</MenuItem>
+    <MenuItem>Notify me</MenuItem>
     <MenuItem>Delete From the Group</MenuItem>
   </IconMenu>
 );
