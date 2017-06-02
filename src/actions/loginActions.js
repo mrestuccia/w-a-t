@@ -2,6 +2,8 @@
 import axios from 'axios';
 
 import { loginUserSuccess, logoutSuccess, locationSuccess } from './userActionTypes';
+//I am wondering about reducers depending on other reducers....
+//How about locationActions - which would pull in both of these reducers?
 import { loadGroups } from '../redux/reducers/groupReducer';
 import { loadFriends } from '../redux/reducers/friendReducer';
 

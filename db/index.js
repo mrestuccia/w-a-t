@@ -1,4 +1,5 @@
 const conn = require('./conn');
+//wondering if you want to move seed logic to another file
 const faker = require('faker');
 
 const User = require('./user');
@@ -14,6 +15,7 @@ UserGroup.belongsTo(Group, { onDelete: 'CASCADE' });
 User.hasMany(UserGroup);
 Group.hasMany(UserGroup);
 
+//have force be an environment variable too - if you want to avoid data getting wiped out
 const sync = () => conn.sync({ force: true });
 
 const seed = () => {

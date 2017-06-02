@@ -13,12 +13,14 @@ const FriendDetail = ({friend}) =>{
   
 
 
+//loadFriends defined?
 const mapDispatchToProps = (dispatch) => (
   {
     loadFriends: (gId) => dispatch(loadFriends(gId))
   }
 );
 
+// ... = ({ friend })
 const mapStateToProps = (state) => (
   {
     friend: state.friend,

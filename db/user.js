@@ -1,4 +1,5 @@
 const conn = require('./conn');
+//beef up logic in models
 
 const User = conn.define('user', {
   name: {

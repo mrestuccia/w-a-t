@@ -13,6 +13,7 @@ const selectFriend = (event) => {
     console.log( event.target.value );
   };
 
+//name these with caps FriendList
 const friendList = ({friends, group}) =>(
   <div>
 
@@ -38,12 +39,14 @@ const friendList = ({friends, group}) =>(
 	)
 
 
+//is loadFriends being called anywhere?
 const mapDispatchToProps = (dispatch) => (
   {
    loadFriends: (gId) => dispatch(loadFriends(gId))
   }
 );
 
+//const mapStaterToProps = ({ friends })
 const mapStateToProps = (state) => (
   {
     friends: state.friends

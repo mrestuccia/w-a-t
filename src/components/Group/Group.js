@@ -30,11 +30,14 @@ const mapDispatchToProps = (dispatch) => (
 
   {
     loadFriends: (gId) => {
-    // console.log('loadfriend on the page', gId) 
-    return dispatch(loadFriends(gId))}
+      // console.log('loadfriend on the page', gId) 
+      // why the return here? are we doing something after we load friends?
+      return dispatch(loadFriends(gId))
+    }
   }
 );
 
+// ({ groups, group })
 const mapStateToProps = (state) => (
   {
     groups: state.groups,

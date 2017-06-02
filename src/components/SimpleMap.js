@@ -15,7 +15,9 @@ const Marker = ({ text, icon, handleMarkerClick }) => {
 };
 
 class SimpleMap extends Component {
+    //constructor({ updatePosition })
     constructor(props) {
+      //you can pull in update position here if you want...
         super(props);
         this.state = {
             center: { lat: 40.7253, lng: -73.9955 },
@@ -119,6 +121,7 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
+//.... = ({ friends })
 const mapStateToProps = (store) => {
     return {
         friends: store.friends

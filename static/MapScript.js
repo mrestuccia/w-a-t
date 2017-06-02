@@ -1,3 +1,4 @@
+//you using this
 function init_map(){
         var map = new google.maps.Map(
             document.getElementById('gmap_canvas'), 

@@ -31,6 +31,7 @@ export default class AddFriend extends React.Component {
   handleClose(event) {
     event.preventDefault();
 
+    //might be good to grab this in contructor-- would be more clear that it needs to get passed in?
     this.props.addFriend(this.props.friends[0].groupId, this.state);
     this.setState(
       {
