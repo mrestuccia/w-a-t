@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateLocation } from '../actions/loginActions';
-import { addFriend } from '../redux/reducers/friendReducer';
-
 
 
 import SimpleMap from './SimpleMap';
 
 import GroupSelector from './Group/Group.js';
 import FriendList from './Friends';
-import AddFriend from './Friends/AddFriend';
+
 
 
 
@@ -22,11 +20,10 @@ class Home extends Component {
     return (
       <div id='myApp'>
           <SimpleMap updateLocation = {updateLocation} />
-          <GroupSelector />
+          <GroupSelector friends={friends} addFriend={ addFriend } />
           <FriendList />
-          <AddFriend friends={friends} addFriend={ addFriend } />
       </div>
-    )
+    );
   }
 }
 

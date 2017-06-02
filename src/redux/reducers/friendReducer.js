@@ -31,7 +31,7 @@ const loadFriends = (gId) => {
       .then(response => {
         // console.log('friendlist', response.data)
         return dispatch(loadFriendsSuccess(response.data));
-      })
+      });
   };
 };
 
@@ -39,8 +39,8 @@ const selectFriend = (gId, uId) => {
   return (dispatch) => {
     return axios.get(`/api/group/${gId}/${uId}`)
       .then(response => dispatch(selectFriendSuccess(response.data)));
-  }
-}
+  };
+};
 
 
 const addFriend = (gId, state) => {
@@ -50,7 +50,7 @@ const addFriend = (gId, state) => {
       .then(response => {
         dispatch(addFriendSuccess(response.data));
       })
-      .catch(e => console.log('Error addFriend: ', e));
+      .catch(err => console.log('Error addFriend: ', err));
   };
 };
 
@@ -68,9 +68,9 @@ const friendReducer = (state = [], action) => {
       console.log('adding...', action.friend);
       state = [...state, action.friend];
       break;
+    default:
+      return state;
   }
-
-  return state;
 };
 
 

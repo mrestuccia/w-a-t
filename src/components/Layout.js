@@ -69,7 +69,7 @@ class Layout extends Component {
       <MuiThemeProvider muiTheme={muiTheme}>
       <div className='header'>
         {/*<AppBar title='Where Are They' iconElementLeft={ !user.id ? <Link to='/login'>Login</Link>: <Menu user={user}  />} />*/}
-        <AppBar style={{fontFamily:'Audiowide'}} title='Where Are They' onLeftIconButtonTouchTap={this.toggleMenu} iconElementRight={ !user.id? <IconButton/>:<RightMenu/>}/>
+        <AppBar style={{fontFamily:'Audiowide'}} title='WAT' onLeftIconButtonTouchTap={this.toggleMenu} iconElementRight={ !user.id? <IconButton/>:<RightMenu/>}/>
         <Drawer open={this.state.open} docked={false} onRequestChange={(open) => this.setState({open})}>
               <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'none' : 'block'}}><Link to='/login'>Log In</Link> </MenuItem>
               <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'block' : 'none'}}>Hi {user.name}!</MenuItem>

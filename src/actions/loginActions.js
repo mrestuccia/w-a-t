@@ -7,15 +7,14 @@ import { loadFriends } from '../redux/reducers/friendReducer';
 
 const exchangeTokenForUser = () => {
   return (dispatch) => {
-    if (!localStorage.getItem('token'))
-      return Promise.reject('no local storage token');
+    if (!localStorage.getItem('token')) return Promise.reject('no local storage token');
     return axios.get(`/api/user/auth/${localStorage.getItem('token')}`)
       .then(response => response.data)
       .then(user => {
-        dispatch(loginUserSuccess(user))
+        dispatch(loginUserSuccess(user));
         return user;
-      })
-  }
+      });
+  };
 };
 
 
@@ -31,7 +30,6 @@ const login = (credentials) => {
     return axios.post('/api/user/auth', credentials)
       .then(response => {
 
-        // console.log('test response!!!!', response.data.token)
         localStorage.setItem('token', response.data.token);
 
         dispatch(loginUserSuccess(response.data.user));

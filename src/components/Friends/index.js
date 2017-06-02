@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { loadGroups } from '../../redux/reducers/groupReducer';
 import { loadFriends } from '../../redux/reducers/friendReducer';
-import {List, ListItem} from 'material-ui/List';
-import Divider from 'material-ui/Divider';
+import { List, ListItem } from 'material-ui/List';
+
+
+// Material UI
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
-import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
+import { grey400, darkBlack, lightBlack } from 'material-ui/styles/colors';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
@@ -32,37 +33,35 @@ const rightIconMenu = (
 
 
 
-const friendList = ({friends, group, user}) =>(
-	<div>
-      <List>
-         <Subheader>Friends List</Subheader>
-              {
-                friends.map(friend => {
-                  return (<ListItem
-                    leftAvatar={<Avatar src={friend.user.photo} />}
-                    key={friend.id}
-                    rightIconButton={rightIconMenu}
-                    primaryText={ 
-                      <p>
-                        <span style={{color: darkBlack}}>{friend.user.name
-                            }	</span> 
-                      </p>
-                    }          
-                    secondaryText={<primaryText> lat: {friend.user.lat} long: {friend.user.long}</primaryText>}
-                    secondaryTextLines={2}
-                 />);
-                })
-              }
-        <Divider inset={true} />
-        </List>
-  
-	</div>
-	)
+const friendList = ({ friends, group, user }) => (
+  <div>
+    <List>
+      <Subheader>Friends List</Subheader>
+      {
+        friends.map(friend => {
+          return (<ListItem
+            leftAvatar={<Avatar src={friend.user.photo} />}
+            key={friend.id}
+            rightIconButton={rightIconMenu}
+            primaryText={
+              <p>
+                <span style={{ color: darkBlack }}>{friend.user.name
+                }	</span>
+              </p>
+            }
+            secondaryText={<primaryText> lat: {friend.user.lat} long: {friend.user.long}</primaryText>}
+            secondaryTextLines={2}
+          />);
+        })
+      }
+    </List>
+  </div>
+)
 
 
 const mapDispatchToProps = (dispatch) => (
   {
-   loadFriends: (gId) => dispatch(loadFriends(gId))
+    loadFriends: (gId) => dispatch(loadFriends(gId))
   }
 );
 
