@@ -18,32 +18,20 @@ const exchangeTokenForUser = () => {
 };
 
 
-const attemptLogin = (dispatch) => {
-  return (dispatch) => {
-    return exchangeTokenForUser(localStorage.getItem('token'), dispatch);
-  };
-};
-
-
 const login = (credentials) => {
   return (dispatch) => {
     return axios.post('/api/user/auth', credentials)
       .then(response => {
-
         localStorage.setItem('token', response.data.token);
-
-        dispatch(loginUserSuccess(response.data.user));
-        return response.data;
+        return dispatch(loginUserSuccess(response.data.user));
       })
       .then(() => dispatch(exchangeTokenForUser()))
-      .then(user => {
-        dispatch(loadGroups(user.id));
-        dispatch(loadFriends(user.id));
-      })
-      .catch((er) => {
-        console.log('test error!!!', er);
+      .then(user => dispatch(loadGroups(user.id)))
+      .then(state => dispatch(loadFriends(state.groups[0].groupId)))
+      .catch((err) => {
+        console.log('loginActions Err: ', err);
         localStorage.removeItem('token');
-        throw er;
+        throw err;
       });
   };
 };
@@ -53,14 +41,12 @@ const logout = () => {
     localStorage.removeItem('token');
     dispatch(logoutSuccess());
     return Promise.resolve();
-  }
-}
+  };
+};
 
 const updateLocation = (coordinates) => {
-  console.log('updateLocation', coordinates);
-
+  //console.log('updateLocation', coordinates);
   const token = localStorage.getItem('token');
-
   return (dispatch) => {
     return axios.put(`/api/user/${token}`, coordinates)
       .then(response => response.data)
@@ -70,7 +56,6 @@ const updateLocation = (coordinates) => {
       });
   };
 };
-
 
 
 export {

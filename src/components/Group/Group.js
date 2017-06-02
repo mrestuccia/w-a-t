@@ -9,12 +9,9 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 
 
-
-
 const toolbarStyle = {
   backgroundColor: 'white',
-}
-
+};
 
 class GroupSelector extends React.Component {
   constructor() {
