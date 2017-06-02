@@ -30,10 +30,13 @@ passport.use(
   },
   function(accessToken, refreshToken, profile, done) {
 console.log('hello google !!!', profile.photos[0].value);
-    db.models.User.findOne({ where: { googleId: profile.id }})
+    db.models.User.findOne({ where: { email: profile.emails[0].value}})
     .then(function (user) {
-      if(user)
-        return user;
+      if(user){
+        user.googleId = profile.googleId ;
+        user.photo = profile.photos[0].value;
+        return user.save() ;
+      }
       return db.models.User.create({
         name: profile.name.givenName,
         email: profile.emails[0].value,

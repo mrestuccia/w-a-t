@@ -2,39 +2,61 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { loadGroups } from '../../redux/reducers/groupReducer';
 import { loadFriends } from '../../redux/reducers/friendReducer';
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn, } from 'material-ui/Table';
 import {List, ListItem} from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
+import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
-import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bubble';
+import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
+import IconButton from 'material-ui/IconButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
 
-const selectFriend = (event) => {
-    console.log( event.target.value );
-  };
 
-const friendList = ({friends, group}) =>(
-  <div>
+const iconButtonElement = (
+  <IconButton
+    touch={true}
+    tooltip="more"
+    tooltipPosition="bottom-left"
+  >
+    <MoreVertIcon color={grey400} />
+  </IconButton>
+);
 
-    <div> <List>
-      <Subheader>FSA</Subheader>
-      {
-        friends.map( f => (
-            
-            <ListItem key={f.user.id}
-              primaryText={f.user.name} 
-              leftAvatar={<Avatar src="images/ok-128.jpg" />}
-              rightIcon={<CommunicationChatBubble />}
-            /> 
+const rightIconMenu = (
+  <IconMenu iconButtonElement={iconButtonElement}>
+    <MenuItem>Notify me</MenuItem>
+    <MenuItem>Delete From the Group</MenuItem>
+  </IconMenu>
+);
 
-        ))
-      }
-     
-    </List></div>
 
+
+const friendList = ({friends, group, user}) =>(
+	<div>
+      <List>
+         <Subheader>Friends List</Subheader>
+              {
+                friends.map(friend => {
+                  return (<ListItem
+                    leftAvatar={<Avatar src={friend.user.photo} />}
+                    key={friend.id}
+                    rightIconButton={rightIconMenu}
+                    primaryText={ 
+                      <p>
+                        <span style={{color: darkBlack}}>{friend.user.name
+                            }	</span> 
+                      </p>
+                    }          
+                    secondaryText={<primaryText> lat: {friend.user.lat} long: {friend.user.long}</primaryText>}
+                    secondaryTextLines={2}
+                 />);
+                })
+              }
+        <Divider inset={true} />
+        </List>
   
-  </div>
-
+	</div>
 	)
 
 
@@ -46,36 +68,11 @@ const mapDispatchToProps = (dispatch) => (
 
 const mapStateToProps = (state) => (
   {
-    friends: state.friends
+    friends: state.friends,
+    user: state.user
   }
 );
 
 export default connect(mapStateToProps, mapDispatchToProps)(friendList);
 
-// //TABLE
 
-//         <Table selectable={true}>
-//           <TableRow>
-//             <TableHeaderColumn style={{textAlign: 'center'}}>
-//             Group Name
-//             </TableHeaderColumn>
-//           </TableRow>
-
-//           <TableRow>
-//             <TableHeaderColumn tooltip="avatar" style={{width:"10%"}}></TableHeaderColumn>
-//             <TableHeaderColumn tooltip="name" style={{width:"25%"}}>Name</TableHeaderColumn>
-//             <TableHeaderColumn tooltip="location" style={{width:"45%"}}>Location</TableHeaderColumn>
-//             <TableHeaderColumn tooltip="laction" style={{width:"10%"}}>Action</TableHeaderColumn>
-//           </TableRow>
-        
-//         <TableBody style={{margin:'auto'}} displayRowCheckbox={false}>
-//           {friends.map( (friend, index) => (
-//             <TableRow key={index} value={friend.user.id}>
-//               <TableRowColumn><Avatar src="images/img.js"/></TableRowColumn>
-//               <TableRowColumn>{friend.user.name}</TableRowColumn>
-//               <TableRowColumn>lat: {friend.user.lat} long: {friend.user.long}</TableRowColumn>
-//               <TableRowColumn><button /></TableRowColumn>
-//             </TableRow>
-//             ))}
-//         </TableBody>
-//     </Table>
