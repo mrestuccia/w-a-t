@@ -4,15 +4,15 @@ import axios from 'axios';
 const LOAD_GROUP_SUCCESS = 'LOAD_GROUP_SUCCESS';
 
 // Action Creator
-const loadGroupsSuccess = (groups)=> ({
+const loadGroupsSuccess = (groups) => ({
   type: LOAD_GROUP_SUCCESS,
   groups: groups
 });
 
 
 // Axios Call
-const loadGroups = (id)=> {
-  return (dispatch)=> {
+const loadGroups = (id) => {
+  return (dispatch) => {
     return axios.get(`/api/user/${id}/groups`)
       .then(response => dispatch(loadGroupsSuccess(response.data)));
   };
@@ -20,15 +20,13 @@ const loadGroups = (id)=> {
 
 
 // Reducer
-const groupReducer = (state=[], action)=> {
-  switch(action.type){
+const groupReducer = (state = [], action) => {
+  switch (action.type) {
     case LOAD_GROUP_SUCCESS:
-      state = action.groups;
-      break;
+      return action.groups;
+    default:
+      return state;
   }
-
-  // console.log('group',state);
-  return state;
 };
 
 
@@ -38,7 +36,3 @@ export {
 
 
 export default groupReducer;
-
-
-
-

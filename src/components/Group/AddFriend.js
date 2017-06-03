@@ -1,10 +1,23 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { addFriend } from '../../redux/reducers/friendReducer';
+
+
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 
-export default class AddFriend extends React.Component {
+
+
+const style = {
+  marginRight: 0,
+};
+
+
+class AddFriend extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -58,14 +71,17 @@ export default class AddFriend extends React.Component {
 
     return (
       <div>
-        <FlatButton label="Invite" onTouchTap={this.handleOpen} />
+         <FloatingActionButton secondary={true} style={style}>
+            <ContentAdd onTouchTap={this.handleOpen} />
+          </FloatingActionButton>
+
         <Dialog
           title="Add Friend"
           actions={actions}
           modal={true}
           open={this.state.open}
         >
-          Enter your friend's name and email
+          <p>Enter your friend's name and email</p>
 
           <TextField id="friend-name" hintText="Enter Name" floatingLabelText="Name" value={this.state.name} onChange={(event, newValue) => this.setState({ name: newValue })} />
           <br />
@@ -76,3 +92,19 @@ export default class AddFriend extends React.Component {
     );
   }
 }
+
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addFriend: (gId, state) =>  dispatch(addFriend(gId, state)),  
+  };
+};
+
+
+const mapStateToProps = (store) => {
+  return {
+    friends: store.friends
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddFriend);

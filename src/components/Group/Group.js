@@ -1,37 +1,63 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { loadGroups, selectGroup } from '../../redux/reducers/groupReducer';
 import { loadFriends } from '../../redux/reducers/friendReducer';
+import AddFriend from './AddFriend';
 
-const GroupOption = ({ group }) => {
-  // console.log('**gId',group.id)
-  return (
-  <option value={group.id}>{group.name}</option>
-)}
+// Material UI
+import MenuItem from 'material-ui/MenuItem';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 
-const GroupSelector = ({ groups, loadFriends }) => {
-  // console.log('Groups',loadFriends)
-  return (
-  <div>
-    <select onChange={(evt)=>loadFriends(evt.target.value)}>
-      {
-        groups.map(group => {
-          return (
-            <GroupOption key={group.id} group={group.group} />
-          );
-        })
-      }
-    </select>
 
-  </div>  
-)}    
+const toolbarStyle = {
+  backgroundColor: 'white',
+};
+
+class GroupSelector extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      value: 1,
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event, index, value) {
+    this.setState({ value });
+    this.props.loadFriends(value);
+  }
+
+  render() {
+    if (!this.props.groups) return null;
+    return (
+      <Toolbar style={toolbarStyle}>
+        <ToolbarGroup firstChild={true}>
+          <DropDownMenu value={this.state.value} onChange={this.handleChange}>
+            {
+              this.props.groups.map(group => {
+                return (
+                  <MenuItem key={group.group.id} value={group.group.id} primaryText={group.group.name} />
+                );
+              })
+            }
+          </DropDownMenu>
+        </ToolbarGroup>
+        <ToolbarGroup>
+          <AddFriend />
+        </ToolbarGroup>
+      </Toolbar>
+    );
+  }
+}
 
 const mapDispatchToProps = (dispatch) => (
 
   {
     loadFriends: (gId) => {
-    // console.log('loadfriend on the page', gId) 
-    return dispatch(loadFriends(gId))}
+      console.log('loadfriend on the page', gId);
+      return dispatch(loadFriends(gId))
+    }
   }
 );
 
