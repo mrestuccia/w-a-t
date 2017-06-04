@@ -1,9 +1,14 @@
-import React from 'react';
+/*import React from 'react';
 import { connect } from 'react-redux';
-import { loadFriends } from '../../redux/reducers/friendReducer';
-import AddFriend from './AddFriend';
 
-// Material UI
+//Material UI
+import IconButton from 'material-ui/IconButton';
+import MenuIcon from 'material-ui/svg-icons/navigation/menu';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import Drawer from 'material-ui/Drawer';
+import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
+import Divider from 'material-ui/Divider';
+import Dialog from 'material-ui/Dialog';
 import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
@@ -13,7 +18,7 @@ const toolbarStyle = {
   backgroundColor: 'white',
 };
 
-class GroupSelector extends React.Component {
+class GroupMenu extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -25,17 +30,18 @@ class GroupSelector extends React.Component {
 
   handleChange(event, index, value) {
     this.setState({ value });
-    this.props.loadFriends(value);
   }
-
-  // componentWillReceiveProps(props, nextProps){
-  //   console.log(props, nextProps)
-
-  // }
 
   render() {
     if (!this.props.groups) return null;
     return (
+
+        <MenuItem value={this.state.value} onChange={this.handleChange} style={{display: user.id ? 'block' : 'none'}} primaryText="Group:Family" checked={true} rightIcon={<ArrowDropRight/>}
+              menuItems={[
+                <MenuItem primaryText="Family" checked={true}/>,
+                <MenuItem primaryText="FullStack Friends"  />,
+                <MenuItem primaryText="Co-worker" />,
+        
       <Toolbar style={toolbarStyle}>
         <ToolbarGroup firstChild={true}>
           <DropDownMenu value={this.state.value} onChange={this.handleChange}>
@@ -73,7 +79,4 @@ const mapStateToProps = (state) => (
   }
 );
 
-export default connect(mapStateToProps, mapDispatchToProps)(GroupSelector);
-
-
-
+export default connect(mapStateToProps, mapDispatchToProps)(GroupSelector);*/

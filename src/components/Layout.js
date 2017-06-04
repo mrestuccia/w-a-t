@@ -15,13 +15,18 @@ import Drawer from 'material-ui/Drawer';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 import Divider from 'material-ui/Divider';
 import Dialog from 'material-ui/Dialog';
+import AddGroup from './Group/AddGroup.js';
 
+
+const style = {
+    'margin-top': 10
+};
 
 const muiTheme = getMuiTheme({
   appBar: {
     height: 50,
     fontFamily: 'Audiowide'
-  },
+  }
 });
 
 const RightMenu = () => (
@@ -39,7 +44,6 @@ const RightMenu = () => (
 )
 
 RightMenu.muiName = "IconMenu" ;
-
 
 
 class Layout extends Component {
@@ -72,18 +76,27 @@ class Layout extends Component {
         <AppBar style={{fontFamily:'Audiowide'}} title='WAT' onLeftIconButtonTouchTap={this.toggleMenu} iconElementRight={ !user.id? <IconButton/>:<RightMenu/>}/>
         <Drawer open={this.state.open} docked={false} onRequestChange={(open) => this.setState({open})}>
               <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'none' : 'block'}}><Link to='/login'>Log In</Link> </MenuItem>
-              <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'block' : 'none'}}>Hi {user.name}!</MenuItem>
-               <Divider />
-              <MenuItem style={{display: user.id ? 'block' : 'none'}} primaryText="Group:Family" checked={true} rightIcon={<ArrowDropRight/>}
+              <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'block' : 'none'}}>Hi {user.name}!
+                    <AddGroup />
+              </MenuItem>
+               <Divider style={style}/>
+
+                {
+              this.props.groups.map(group => {
+                return (
+                  <MenuItem key={group.group.id} value={group.group.id} primaryText={group.group.name} />
+                );
+              })
+            }
+            <MenuItem onTouchTap={this.closeMenu} onClick={logout} style={{display: user.id ? 'block' : 'none'}}>Log Out</MenuItem> ;
+              {/*<MenuItem style={{display: user.id ? 'block' : 'none'}} primaryText="Group:Family" checked={true} rightIcon={<ArrowDropRight/>}
               menuItems={[
                 <MenuItem primaryText="Family" checked={true}/>,
-                <MenuItem primaryText="FullStack Friends"  />,
-                <MenuItem primaryText="Co-worker" />,
               ]}
               />
               <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'block' : 'none'}}>Create a Group</MenuItem>
               <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'block' : 'none'}}>Edit the Group</MenuItem>
-              <MenuItem onTouchTap={this.closeMenu} onClick={logout} style={{display: user.id ? 'block' : 'none'}}>Log Out</MenuItem>
+              */}
           </Drawer>
           {children}
         </div>
@@ -93,7 +106,7 @@ class Layout extends Component {
 }
 
 
-const mapStateToProps = ({ groups, user }) => (
+const mapStateToProps = ({ groups, group, user }) => (
   { groups, user }
 );
 

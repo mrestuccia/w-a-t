@@ -10,6 +10,8 @@ const loadGroupsSuccess = (groups) => ({
 });
 
 
+
+
 // Axios Call
 const loadGroups = (id) => {
   return (dispatch) => {
@@ -29,9 +31,22 @@ const groupReducer = (state = [], action) => {
   }
 };
 
+//Add Group Reducer
+
+const addGroup = (userId, state) => {
+  return (dispatch) => {
+    console.log('addGroup', userId, state);
+    return axios.post(`/api/group/${userId}`, state )
+      .then(response => {
+        dispatch(loadGroups(userId))
+      })
+      .catch(err => console.log('Error addGroup: ', err));
+  };
+};
+
 
 export {
-  loadGroups
+  loadGroups, addGroup
 };
 
 
