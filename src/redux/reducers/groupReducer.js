@@ -3,6 +3,7 @@ import axios from 'axios';
 // Action Constants
 const LOAD_GROUP_SUCCESS = 'LOAD_GROUP_SUCCESS';
 
+
 // Action Creator
 const loadGroupsSuccess = (groups) => ({
   type: LOAD_GROUP_SUCCESS,
@@ -35,7 +36,6 @@ const groupReducer = (state = [], action) => {
 
 const addGroup = (userId, state) => {
   return (dispatch) => {
-    console.log('addGroup', userId, state);
     return axios.post(`/api/group/${userId}`, state )
       .then(response => {
         dispatch(loadGroups(userId))
@@ -44,9 +44,34 @@ const addGroup = (userId, state) => {
   };
 };
 
+//Delete Group Reducer
+
+const deleteGroup = (groupId,userId, state) =>{
+  return (dispatch) => {
+    return axios.delete(`/api/group/${groupId}/${userId}`, state)
+    .then (response =>{
+      dispatch(loadGroups(userId))
+    })
+    .catch(err => console.log('Error deleteGroup:', err)) ;
+  };
+};
+
+// Edit Group Reducer
+const editGroup = (groupId, userId, state) => {
+  return (dispatch) => {
+    return axios.put(`/api/group/${groupId}/${userId}`, state)
+    .then(response =>{
+      dispatch(loadGroups(userId))
+    })
+    .catch(err => console.log('Error editGroup:', err)) ;
+  };
+};
+
+
+
 
 export {
-  loadGroups, addGroup
+  loadGroups, addGroup, deleteGroup, editGroup
 };
 
 

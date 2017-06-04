@@ -16,10 +16,13 @@ import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 import Divider from 'material-ui/Divider';
 import Dialog from 'material-ui/Dialog';
 import AddGroup from './Group/AddGroup.js';
-
+import Delete from 'material-ui/svg-icons/action/delete';
+import Edit from 'material-ui/svg-icons/editor/mode-edit';
+import EditGroup from './Group/EditGroup';
+import DeleteGroup from './Group/DeleteGroup';
 
 const style = {
-    'margin-top': 10
+    'marginTop': 10
 };
 
 const muiTheme = getMuiTheme({
@@ -50,10 +53,15 @@ class Layout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false
+      open: false,
+      showEditModal: false,
+      showDeleteModal: false,
+      groupId: 1,
     };
     this.toggleMenu = this.toggleMenu.bind(this);
     this.closeMenu = this.closeMenu.bind(this);
+    this.showEditModal = this.showEditModal.bind(this);
+    this.showDeleteModal = this.showDeleteModal.bind(this);
   }
 
   toggleMenu(e) {
@@ -63,6 +71,16 @@ class Layout extends Component {
 
   closeMenu() {
     this.setState({ open: false });
+  }
+
+  showEditModal(groupId){
+    console.log(groupId)
+    this.setState({groupId: groupId, showEditModal: !this.state.showEditModal})
+  }
+
+  showDeleteModal(groupId){
+    console.log(groupId)
+    this.setState({groupId: groupId, showDeleteModal: !this.state.showDeleteModal})
   }
 
 
@@ -84,7 +102,11 @@ class Layout extends Component {
                 {
               this.props.groups.map(group => {
                 return (
-                  <MenuItem key={group.group.id} value={group.group.id} primaryText={group.group.name} />
+                  <MenuItem key={group.group.id} value={group.group.id} primaryText={group.group.name} rightIcon={<ArrowDropRight/>} 
+                  menuItems={[
+                        <MenuItem primaryText="Edit" onTouchTap={()=>{this.showEditModal(group.group.id)}}  leftIcon={<Edit />}/>,
+                        <MenuItem primaryText="Delete" onTouchTap={()=>{this.showDeleteModal(group.group.id)}} leftIcon={<Delete />}/>
+                   ]}/>
                 );
               })
             }
@@ -94,10 +116,10 @@ class Layout extends Component {
                 <MenuItem primaryText="Family" checked={true}/>,
               ]}
               />
-              <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'block' : 'none'}}>Create a Group</MenuItem>
-              <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'block' : 'none'}}>Edit the Group</MenuItem>
               */}
           </Drawer>
+          <EditGroup showModal={this.state.showEditModal} groupId={this.state.groupId} onCloseModal={this.showEditModal}/>
+          <DeleteGroup showModal={this.state.showDeleteModal} groupId={this.state.groupId} onCloseModal={this.showDeleteModal}/>
           {children}
         </div>
       </MuiThemeProvider>

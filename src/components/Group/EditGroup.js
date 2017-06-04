@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addGroup } from '../../redux/reducers/groupReducer';
+import { editGroup } from '../../redux/reducers/groupReducer';
 
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
@@ -9,22 +9,10 @@ import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
-//group menu add chip
-import Chip from 'material-ui/Chip';
-import Avatar from 'material-ui/Avatar';
-import {cyan400, white} from 'material-ui/styles/colors';
-const style = {
-  marginRight: 10,
-  position: 'relative',
-  'margin-top': -38,
-  left: 180,
-   chip: {
-    margin: 1
-  }
-};
 
 
-class AddGroup extends React.Component {
+
+class EditGroup extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -47,15 +35,14 @@ class AddGroup extends React.Component {
     this.setState({ open: true });
   }
 
-  handleClose(event) {
-    event.preventDefault();
-   //console.log(this.props.groups[0].userId);
-    this.props.addGroup(this.props.groups[0].userId, this.state);
+  handleClose( groupId) {
+    //event.preventDefault();
+    this.props.editGroup(groupId, this.props.groups[0].userId, this.state);
     this.setState(
       {
-        open: false,
         name: ''
       });
+    this.props.onCloseModal()
   }
 
   render() {
@@ -69,7 +56,7 @@ class AddGroup extends React.Component {
         label="Submit"
         primary={true}
         disabled={this.state.name.length === 0}
-        onTouchTap={ this.handleClose }
+        onTouchTap={ ()=>{this.handleClose(this.props.groupId)} }
       />,
     ];
 
@@ -77,23 +64,15 @@ class AddGroup extends React.Component {
     return (
 
       <div>
-          <Chip onTouchTap={this.handleOpen} style={style.chip} backgroundColor = {cyan400} labelColor = {white}>
-          <Avatar size={32} backgroundColor = {cyan400} >+</Avatar>
-          Create Group
-        </Chip>
-         {/*<FloatingActionButton mini={true} style={style} >
-            <ContentAdd onTouchTap={this.handleOpen} />
-          </FloatingActionButton>*/}
-
         <Dialog
-          title="Create Group"
+          title="Edit Group"
           actions={actions}
           modal={true}
-          open={this.state.open}
+          open={this.props.showModal}
         >
-          <p>Enter the Group Name</p>
+          <p>Edit the Group Name</p>
 
-          <TextField id="friend-name" hintText="Enter the Group Name" floatingLabelText="Name" value={this.state.name} 
+          <TextField id="group-name" hintText="Edit the Group Name" floatingLabelText="Name" value={this.state.name} 
           onChange={(event, newValue) => this.setState({ name: newValue })} />
         </Dialog>
       </div>
@@ -104,7 +83,7 @@ class AddGroup extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addGroup: (userId, state) =>  dispatch(addGroup(userId, state)),  
+    editGroup: (groupId, userId, state) =>  dispatch(editGroup(groupId, userId, state)),  
   };
 };
 
@@ -115,4 +94,4 @@ const mapStateToProps = (store) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddGroup);
+export default connect(mapStateToProps, mapDispatchToProps)(EditGroup);
