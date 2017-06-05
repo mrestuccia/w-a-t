@@ -92,12 +92,12 @@ router.delete('/:groupId/:userId', (req, res, next) => {
       })
       .then(count => {
         if (count === 0) {
-          return models.Group.destroy({ where: { groupId: req.params.groupId } })
+          return models.UserGroup.destroy({ where: { groupId: req.params.groupId } })
         }
         return count;
       })
       .then(count => {
-        res.status(200).send(count);
+        res.status(200).send({count});
       })
       .catch(next);
   }

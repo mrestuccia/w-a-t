@@ -28,6 +28,11 @@ class GroupSelector extends React.Component {
     this.props.loadFriends(value);
   }
 
+  // componentWillReceiveProps(props, nextProps){
+  //   console.log(props, nextProps)
+
+  // }
+
   render() {
     if (!this.props.groups) return null;
     return (

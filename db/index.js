@@ -19,7 +19,7 @@ const sync = () => conn.sync({ force: true });
 const seed = () => {
   const groups = ['group1', 'group2', 'group3'];
   const users = [
-    { name: 'Summer', email: 'summer@traveltripper.com' },
+    { name: 'Summer', email: 'summergun10@gmail.com' },
     { name: 'Evan', email: 'evan@evan.com' },
     { name: 'Arum', email: 'arumbit@gmail.com' },
     { name: 'Mauro', email: 'mrestuccia@mac.com' }
