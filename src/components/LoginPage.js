@@ -46,8 +46,8 @@ class Login extends Component {
             <br />
             <div className="row">
               <div className="social-row">
-                <a href="#" className="btn btn-block btn-social btn-facebook" >
-                  <i className="fa fa-facebook" />Sign In with FaceBook
+                <a href="/auth/facebook" className="btn btn-block btn-social btn-facebook" >
+                  <i className="fa fa-facebook" />Sign In with Facebook
                   </a>
               </div>
             </div>
