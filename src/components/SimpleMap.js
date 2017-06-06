@@ -19,7 +19,8 @@ class SimpleMap extends Component {
         super(props);
         this.state = {
             center: { lat: 40.7253, lng: -73.9955 },
-            zoom: 12
+            zoom: 12,
+            bounds: new google.maps.LatLngBounds()
         };
         this.startPolling = this.startPolling.bind(this);
         this.handleMarkerClick = this.handleMarkerClick.bind(this);
@@ -84,13 +85,29 @@ class SimpleMap extends Component {
         if (friends[0] == undefined) {
             return null;
         } else {
+            friends.map(friend => {
+                var latlng = new google.maps.LatLng(friend.user.lat, friend.user.long)
+                // console.log(latlng)
+                this.state.bounds.extend(latlng)
+            })
+            // console.log(this.state.bounds)
+            var myCenter = this.state.bounds.getCenter();
+            console.log(myCenter)
+            console.log(this.state.center)
+            var centerLat = myCenter.lat()
+            console.log(centerLat)
             return (
                 <div style={{ width: '100%', height: '50%' }}>
                     <GoogleMapReact
                         center={this.state.center}
-                        zoom={this.state.zoom}>
+                        zoom={this.state.zoom}
+                        bounds={this.state.bounds}
+                        >
                         {
                             friends.map(friend => {
+                                // var latlng = new google.maps.LatLng(friend.user.lat, friend.user.long)
+                                // this.state.bounds.extend(latlng)
+                                // console.log(this.state.bounds)
                                 return (
                                     <Marker
                                         mini={true}
