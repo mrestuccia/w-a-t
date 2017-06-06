@@ -13,10 +13,10 @@ import { loadFriends } from './redux/reducers/friendReducer';
 
 const Routes = ({ bootstrap }) => {
   return (
-    <Router history={hashHistory} onEnter={bootstrap()}>
-      <Route path='/' component={Layout}>
-        <IndexRoute component={Home} />
-        <Route path="/login" component={Login} />
+    <Router history={ hashHistory } onEnter={bootstrap()}>
+      <Route path="/" component={ Layout }>
+        <IndexRoute component={ Home } />
+        <Route path="/login" component={ Login } />
       </Route>
     </Router>
   );
@@ -25,10 +25,8 @@ const Routes = ({ bootstrap }) => {
 const mapDispatchToProps = (dispatch) => {
   const bootstrap = () => {
     dispatch(exchangeTokenForUser())
-      .then(user => {
-        dispatch(loadGroups(user.id));
-        dispatch(loadFriends(user.id));
-      })
+      .then(user => dispatch(loadGroups(user.id)))
+      .then(state => dispatch(loadFriends(state.groups[0].groupId)))
       .catch(() => hashHistory.push('/login'));
   };
   return {

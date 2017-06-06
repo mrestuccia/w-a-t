@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 
 // Action Constants
@@ -31,7 +30,7 @@ const loadFriends = (gId) => {
       .then(response => {
         // console.log('friendlist', response.data)
         return dispatch(loadFriendsSuccess(response.data));
-      })
+      });
   };
 };
 
@@ -39,8 +38,8 @@ const selectFriend = (gId, uId) => {
   return (dispatch) => {
     return axios.get(`/api/group/${gId}/${uId}`)
       .then(response => dispatch(selectFriendSuccess(response.data)));
-  }
-}
+  };
+};
 
 
 const addFriend = (gId, state) => {
@@ -50,7 +49,7 @@ const addFriend = (gId, state) => {
       .then(response => {
         dispatch(addFriendSuccess(response.data));
       })
-      .catch(e => console.log('Error addFriend: ', e));
+      .catch(err => console.log('Error addFriend: ', err));
   };
 };
 
@@ -59,18 +58,15 @@ const addFriend = (gId, state) => {
 const friendReducer = (state = [], action) => {
   switch (action.type) {
     case LOAD_FRIENDS_SUCCESS:
-      state = action.friends;
-      break;
+      return action.friends;
     case SELECT_FRIEND_SUCCESS:
-      state = action.friend;
-      break;
+      return action.friend;
     case ADD_FRIEND_SUCCESS:
       console.log('adding...', action.friend);
-      state = [...state, action.friend];
-      break;
+      return [...state, action.friend];
+    default:
+      return state;
   }
-
-  return state;
 };
 
 
