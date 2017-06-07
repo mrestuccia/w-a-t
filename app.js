@@ -38,28 +38,67 @@ passport.use(
     clientID: googleClientID,
     clientSecret: googleClientSecret,
     callbackURL: googleCallbackURL,
-    scope: 'email'
+    scope: 'email',
+    passReqToCallback: true
   },
-    function (accessToken, refreshToken, profile, done) {
-      console.log('hello google !!!', profile.photos[0].value);
-      db.models.User.findOne({ where: { email: profile.emails[0].value } })
-        .then(function (user) {
-          if (user) {
+    function (request, accessToken, refreshToken, profile, done) {
+      console.log('hello google !!!', profile.emails[0].value);
+
+      const state = (request.query.state) ? JSON.parse(request.query.state) : null;
+      const inviteCode = (state) ? state.inviteCode : null;
+
+      console.log('state', state);
+      console.log('invite', inviteCode);
+
+      let userGroup = null;
+
+      if (inviteCode) {
+        userGroup = jwt.decode(inviteCode, JWT_SECRET);
+        console.log('userGroup', userGroup.id, userGroup.groupid);
+
+      }
+
+
+      //Initation mode
+      if (userGroup) {
+        db.models.User.findById(userGroup.id)
+          .then(user => {
+            console.log('user found', user);
             user.googleId = profile.googleId;
             user.photo = profile.photos[0].value;
             return user.save();
-          }
-          return db.models.User.create({
-            name: profile.name.givenName,
-            email: profile.emails[0].value,
-            googleId: profile.id,
-            photo: profile.photos[0].value
+          })
+          .then(function (user) {
+            done(null, user);
+          })
+          .catch((err) => {
+            console.log('err is=', err);
+            done(err, null);
           });
-        })
-        .then(function (user) {
-          done(null, user);
-        })
-        .catch((err) => done(err, null));
+      } else {
+
+        db.models.User.findOne({ where: { email: profile.emails[0].value } })
+          .then(function (user) {
+            if (user) {
+              user.googleId = profile.googleId;
+              user.photo = profile.photos[0].value;
+              return user.save();
+            }
+            return db.models.User.create({
+              name: profile.name.givenName,
+              email: profile.emails[0].value,
+              googleId: profile.id,
+              photo: profile.photos[0].value
+            });
+          })
+          .then(function (user) {
+            done(null, user);
+          })
+          .catch((err) => {
+            console.log('err is=', err);
+            done(err, null);
+          });
+      }//else
     }));
 
 passport.use(new FacebookStrategy({
@@ -93,11 +132,11 @@ passport.use(new FacebookStrategy({
 ));
 
 // Generic Passport function use by Facebook
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   done(null, user);
 });
 
-passport.deserializeUser(function(user, done) {
+passport.deserializeUser(function (user, done) {
   done(null, user);
 });
 
@@ -109,10 +148,16 @@ app.get('/', (req, res, next) => res.sendFile(path.join(__dirname, 'index.html')
 
 
 // Google CallBacks
-app.get('/auth/google', passport.authenticate('google', {
-  scope: ['profile', 'email'],
-  session: false
-}));
+
+// Google CallBacks
+app.get('/auth/google/', function (request, response, next) {
+
+  passport.authenticate('google', {
+    scope: ['profile', 'email'],
+    session: false,
+    state: ''
+  })(request, response, next);
+});
 
 app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/failed', session: false }),
@@ -123,8 +168,22 @@ app.get('/auth/google/callback',
   });
 
 
+app.get('/auth/google/:inviteCode', function (request, response, next) {
+  console.log('callback google with invite code', request.params.inviteCode);
+  const inviteCode = request.params.inviteCode || '';
+
+  passport.authenticate('google', {
+    scope: ['profile', 'email'],
+    session: false,
+    state: JSON.stringify({ inviteCode: inviteCode })
+  })(request, response, next);
+});
+
+
+
+
 // Facebook Callbacks
-app.get('/auth/facebook', passport.authenticate('facebook', { scope: 'email'}));
+app.get('/auth/facebook', passport.authenticate('facebook', { scope: 'email' }));
 
 app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/login' }),

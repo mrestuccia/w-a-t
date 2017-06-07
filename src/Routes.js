@@ -17,6 +17,7 @@ const Routes = ({ bootstrap }) => {
       <Route path="/" component={ Layout }>
         <IndexRoute component={ Home } />
         <Route path="/login" component={ Login } />
+        <Route path="/login/:inviteCode" component={ Login } />
       </Route>
     </Router>
   );
@@ -27,7 +28,9 @@ const mapDispatchToProps = (dispatch) => {
     dispatch(exchangeTokenForUser())
       .then(user => dispatch(loadGroups(user.id)))
       .then(state => dispatch(loadFriends(state.groups[0].groupId)))
-      .catch(() => hashHistory.push('/login'));
+      .catch(() => {
+        //hashHistory.push('/login');
+      });
   };
   return {
     bootstrap
