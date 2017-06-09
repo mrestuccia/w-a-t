@@ -3,14 +3,14 @@ const path = require('path');
 const app = express();
 
 // Google Strategy
-const googleClientID = require('./config.js').google.clientID;
-const googleClientSecret = require('./config.js').google.clientSecret;
+const googleClientID = process.env.googleClientID || require('./config.js').google.clientID;
+const googleClientSecret = process.env.googleClientSecret || require('./config.js').google.clientSecret;
 const googleCallbackURL = process.env.googleCallbackURL || require('./config.js').google.callbackURL;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 // Facebook Stategy
-const facebookClientID = require('./config.js').facebook.clientID;
-const facebookClientSecret = require('./config.js').facebook.clientSecret;
+const facebookClientID = process.env.facebookClientID || require('./config.js').facebook.clientID;
+const facebookClientSecret = process.env.facebookClientSecret || require('./config.js').facebook.clientSecret;
 const facebookCallbackURL = process.env.facebookCallbackURL || require('./config.js').facebook.callbackURL;
 const FacebookStrategy = require('passport-facebook').Strategy;
 
