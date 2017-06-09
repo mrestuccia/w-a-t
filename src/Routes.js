@@ -30,7 +30,6 @@ const mapDispatchToProps = (dispatch) => {
       .then(state => dispatch(loadFriends(state.groups[0].groupId)))
       .catch(() => {
         let pathName = hashHistory.getCurrentLocation().pathname;
-        console.log('catching', pathName);
         if (pathName.indexOf('login') === -1) hashHistory.push('/login');
       });
   };
