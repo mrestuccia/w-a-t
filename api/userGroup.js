@@ -49,7 +49,7 @@ router.post('/:groupId', (req, res, next) => {
       .then(_userGroup => {
         // notify the user via email
         sendEmail(user, _userGroup);
-       
+
         return models.UserGroup.findOne(
           {
             include: [{ model: models.User }],
