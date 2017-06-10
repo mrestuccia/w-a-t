@@ -14,11 +14,6 @@ const facebookClientSecret = process.env.facebookClientSecret || require('./conf
 const facebookCallbackURL = process.env.facebookCallbackURL || require('./config.js').facebook.callbackURL;
 const FacebookStrategy = require('passport-facebook').Strategy;
 
-console.log('facebookClientID', facebookClientID);
-console.log('facebookClientSecret', facebookClientSecret);
-console.log('facebookCallbackURL', facebookCallbackURL);
-
-
 
 const jwt = require('jwt-simple');
 const router = require('express').Router();
@@ -188,7 +183,6 @@ app.get('/', (req, res, next) => res.sendFile(path.join(__dirname, 'index.html')
 
 // Google CallBacks
 
-// Google CallBacks
 app.get('/auth/google/', function (request, response, next) {
 
   passport.authenticate('google', {
@@ -219,6 +213,15 @@ app.get('/auth/google/:inviteCode', function (request, response, next) {
 });
 
 // Facebook Callbacks
+
+app.get('/auth/facebook/', function (request, response, next) {
+
+  passport.authenticate('facebook', {
+    scope: 'email',
+    state: ''
+  })(request, response, next);
+});
+
 app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   function (req, res) {
