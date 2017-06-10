@@ -7,7 +7,7 @@ const sendEmail = (user, group) => {
 
   try {
     var fromEmail = new helper.Email('hi@wat.com');
-    var toEmail = new helper.Email('mrestuccia@mac.com');
+    var toEmail = new helper.Email(user.email);
     var subject = 'WAT - Invitation to join group';
 
     var serverURL = process.env.SERVER_URL;
@@ -16,7 +16,7 @@ const sendEmail = (user, group) => {
 
 
     var jwtToken = jwt.encode({ id: user.id, groupid: group.id }, JWT_SECRET);
-    var html = `<body>Heyo! user invited to you join to his group in WAT.<br/><a href='${serverURL}/api/userGroup/${jwtToken}/join'>Click here to join</a></body>`;
+    var html = `<body>Heyo! You are invited to you join to the group in WAT.<br/><a href='${serverURL}/api/userGroup/${jwtToken}/join'>Click here to join</a></body>`;
 
     console.log('serverURL = ', serverURL + '/api/userGroup/' + jwtToken + '/join');
 
@@ -42,7 +42,7 @@ const sendEmail = (user, group) => {
 
   } catch (err) {
     //ignore
-    console.log('error on sending email',err);
+    console.log('error on sending email', err);
   }
 };
 
