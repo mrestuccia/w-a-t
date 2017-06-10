@@ -68,9 +68,9 @@ class SimpleMap extends Component {
 
     // Function that is repeated sending the position to the store
     poll() {
-        const { updateLocation } = this.props;
+        const { friends, updateLocation } = this.props;
         this.getPosition()
-            .then((coordinates) => updateLocation(this.showPosition(coordinates)));
+            .then((coordinates) => updateLocation(this.showPosition(coordinates), friends[0].groupId));
     }
 
 

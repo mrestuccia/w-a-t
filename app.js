@@ -3,21 +3,16 @@ const path = require('path');
 const app = express();
 
 // Google Strategy
-const googleClientID = require('./config.js').google.clientID;
-const googleClientSecret = require('./config.js').google.clientSecret;
+const googleClientID = process.env.googleClientID || require('./config.js').google.clientID;
+const googleClientSecret = process.env.googleClientSecret || require('./config.js').google.clientSecret;
 const googleCallbackURL = process.env.googleCallbackURL || require('./config.js').google.callbackURL;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 // Facebook Stategy
-const facebookClientID = require('./config.js').facebook.clientID;
-const facebookClientSecret = require('./config.js').facebook.clientSecret;
+const facebookClientID = process.env.facebookClientID || require('./config.js').facebook.clientID;
+const facebookClientSecret = process.env.facebookClientSecret || require('./config.js').facebook.clientSecret;
 const facebookCallbackURL = process.env.facebookCallbackURL || require('./config.js').facebook.callbackURL;
 const FacebookStrategy = require('passport-facebook').Strategy;
-
-console.log('facebookClientID', facebookClientID);
-console.log('facebookClientSecret', facebookClientSecret);
-console.log('facebookCallbackURL', facebookCallbackURL);
-
 
 
 const jwt = require('jwt-simple');
@@ -63,8 +58,9 @@ passport.use(
       if (userGroup) {
         db.models.User.findById(userGroup.id)
           .then(user => {
-            console.log('user found', user);
+            console.log('google user found', user);
             user.googleId = profile.googleId;
+            user.googleEmail =  profile.emails[0].value;
             user.photo = profile.photos[0].value;
             return user.save();
           })
@@ -80,7 +76,9 @@ passport.use(
         db.models.User.findOne({ where: { email: profile.emails[0].value } })
           .then(function (user) {
             if (user) {
+              console.log('user already exists');
               user.googleId = profile.googleId;
+              user.googleEmail = profile.emails[0].value;
               user.photo = profile.photos[0].value;
               return user.save();
             }
@@ -88,12 +86,25 @@ passport.use(
               name: profile.name.givenName,
               email: profile.emails[0].value,
               googleId: profile.id,
+              googleEmail: profile.emails[0].value,
               photo: profile.photos[0].value
+            })
+            .then((userInfo) => {
+              db.models.Group.create({
+                name: 'Default Group'
+              })
+            .then((groupInfo) => {
+                db.models.UserGroup.create({
+                  status: 'confirmed',
+                  userId: userInfo.dataValues.id,
+                  groupId: groupInfo.dataValues.id
+                }).then(()=> {
+                  done(null,userInfo.dataValues);
+                });
+              });
             });
           })
-          .then(function (user) {
-            done(null, user);
-          })
+
           .catch((err) => {
             console.log('err is=', err);
             done(err, null);
@@ -105,29 +116,65 @@ passport.use(new FacebookStrategy({
   clientID: facebookClientID,
   clientSecret: facebookClientSecret,
   callbackURL: facebookCallbackURL,
-  profileFields: ['id', 'displayName', 'email', 'photos']
+  profileFields: ['id', 'displayName', 'email', 'photos'],
+  passReqToCallback: true
 },
-  function (accessToken, refreshToken, profile, done) {
-    db.models.User.findOne({ where: { email: profile.emails[0].value } })
-      .then(function (user) {
-        if (user) {
-          console.log('found the user');
+  function (request, accessToken, refreshToken, profile, done) {
+
+    const state = (request.query.state) ? JSON.parse(request.query.state) : null;
+    const inviteCode = (state) ? state.inviteCode : null;
+
+    console.log('fb state', state);
+    console.log('fb invite', inviteCode);
+
+    let userGroup = null;
+
+    if (inviteCode) {
+      userGroup = jwt.decode(inviteCode, JWT_SECRET);
+      console.log('fb userGroup', userGroup.id, userGroup.groupid);
+    }
+
+    //Initation mode
+    if (userGroup) {
+      db.models.User.findById(userGroup.id)
+        .then(user => {
+          console.log('fb user found', user);
           user.facebookId = profile.id;
+          user.facebookEmail = profile.emails[0].value;
           user.photo = profile.photos[0].value;
           return user.save();
-        }
-        return db.models.User.create({
-          name: profile.DisplayName,
-          email: profile.emails[0].value,
-          facebookId: profile.id,
-          facebookEmail: profile.emails[0].value,
-          photo: profile.photos[0].value
+        })
+        .then(function (user) {
+          done(null, user);
+        })
+        .catch((err) => {
+          console.log('err is=', err);
+          done(err, null);
         });
-      })
-      .then(function (user) {
-        done(null, user);
-      })
-      .catch((err) => done(err, null));
+    } else {
+
+      db.models.User.findOne({ where: { email: profile.emails[0].value } })
+        .then(function (user) {
+          if (user) {
+            console.log('normal found the user');
+            user.facebookId = profile.id;
+            user.facebookEmail = profile.emails[0].value;
+            user.photo = profile.photos[0].value;
+            return user.save();
+          }
+          return db.models.User.create({
+            name: profile.DisplayName,
+            email: profile.emails[0].value,
+            facebookId: profile.id,
+            facebookEmail: profile.emails[0].value,
+            photo: profile.photos[0].value
+          });
+        })
+        .then(function (user) {
+          done(null, user);
+        })
+        .catch((err) => done(err, null));
+    }
   }
 ));
 
@@ -149,7 +196,6 @@ app.get('/', (req, res, next) => res.sendFile(path.join(__dirname, 'index.html')
 
 // Google CallBacks
 
-// Google CallBacks
 app.get('/auth/google/', function (request, response, next) {
 
   passport.authenticate('google', {
@@ -160,7 +206,7 @@ app.get('/auth/google/', function (request, response, next) {
 });
 
 app.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/failed', session: false }),
+  passport.authenticate('google', { failureRedirect: '/login', session: false }),
   function (req, res) {
     var jwtToken = jwt.encode({ id: req.user.id }, JWT_SECRET);
     // Successful authentication, redirect home.
@@ -179,11 +225,15 @@ app.get('/auth/google/:inviteCode', function (request, response, next) {
   })(request, response, next);
 });
 
-
-
-
 // Facebook Callbacks
-app.get('/auth/facebook', passport.authenticate('facebook', { scope: 'email' }));
+
+app.get('/auth/facebook/', function (request, response, next) {
+
+  passport.authenticate('facebook', {
+    scope: 'email',
+    state: ''
+  })(request, response, next);
+});
 
 app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: '/login' }),
@@ -192,6 +242,18 @@ app.get('/auth/facebook/callback',
     // Successful authentication, redirect home.
     res.redirect(`/?token=${jwtToken}`);
   });
+
+
+app.get('/auth/facebook/:inviteCode', function (request, response, next) {
+  console.log('callback google with invite code', request.params.inviteCode);
+  const inviteCode = request.params.inviteCode || '';
+
+  passport.authenticate('facebook',
+    {
+      scope: 'email',
+      state: JSON.stringify({ inviteCode: inviteCode })
+    })(request, response, next);
+});
 
 
 app.use('/api', require('./api/'));

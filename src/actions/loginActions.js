@@ -1,6 +1,6 @@
 
 import axios from 'axios';
-
+//haha
 import { loginUserSuccess, logoutSuccess, locationSuccess } from './userActionTypes';
 import { loadGroups } from '../redux/reducers/groupReducer';
 import { loadFriends } from '../redux/reducers/friendReducer';
@@ -44,14 +44,14 @@ const logout = () => {
   };
 };
 
-const updateLocation = (coordinates) => {
-  //console.log('updateLocation', coordinates);
+const updateLocation = (coordinates, groupId) => {
   const token = localStorage.getItem('token');
   return (dispatch) => {
     return axios.put(`/api/user/${token}`, coordinates)
       .then(response => response.data)
+      .then(() => dispatch(locationSuccess(coordinates)))
       .then(() => {
-        dispatch(locationSuccess(coordinates));
+        if (groupId) dispatch(loadFriends(groupId));
         return Promise.resolve();
       });
   };
