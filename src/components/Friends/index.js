@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { loadFriends, deleteFriend } from '../../redux/reducers/friendReducer';
 import { List, ListItem } from 'material-ui/List';
 import SimpleMap from '../SimpleMap';
-import DeleteFriend from './DeleteFriend'
+
 // Material UI
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
@@ -17,15 +17,15 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
+console.log('SimpleMap');
+
 class friendList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selected: {},
-      gId:'',
-      fId: '',
-      location: '',
       open: false
+
 
     }
     this.onDeleteYes = this.onDeleteYes.bind(this);
@@ -44,9 +44,15 @@ class friendList extends Component {
     
   }
 
-  onClick(evt){
+  onClick(fn, evt){
+    //zoom the person
+    fn(evt.user.lat, evt.user.long);
+
     this.setState({selected: evt})
-    console.log('onClick -  zoom', this.state.selected)
+    const lat = this.state.selected.user.lat;
+    const lang = this.state.selected.user.lang;
+   // console.log('onClick -  zoom', this.state.selected.user.lat)
+  
   }
 
   onClickTrash(){
@@ -65,8 +71,9 @@ class friendList extends Component {
   };
 
   render() {
-    const {friends, group, user } = this.props;
-
+      
+    const {friends, group, user, lat, lng, changeValue } = this.props;
+    console.log('SimpleMap', lat, lng);
     const actions = [
       <FlatButton
         label="Cancel"
@@ -82,11 +89,11 @@ class friendList extends Component {
     return (
        <div >
           <List >
-            <Subheader>Friends List</Subheader>
+            <Subheader>Friends List {lat} {lng}</Subheader>
             {
               friends.map(friend => {
                 return (<ListItem 
-                  onClick = {()=>this.onClick(friend)}
+                  onClick = {()=>this.onClick(changeValue, friend)}
                   value={friend.id}
                   leftAvatar={<Avatar src={friend.user.photo} />}
                   key={friend.id}
@@ -99,7 +106,7 @@ class friendList extends Component {
                         modal={true}
                         open={this.state.open}
                       >
-                       sure to delete this person?
+                       sure to delete {friend.user.name}?
                       </Dialog></div>}
                   primaryText={ 
                     <div value={friend.id}>
