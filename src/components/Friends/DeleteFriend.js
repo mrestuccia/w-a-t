@@ -9,10 +9,7 @@ import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
-
-
-
-class DeleteGroup extends React.Component {
+class DeleteFriend extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -25,37 +22,30 @@ class DeleteGroup extends React.Component {
     this.onChange = this.onChange.bind(this);
   }
 
-
   onChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
 
+  handleOpen(){
+    this.setState({open: true});
+  };
 
-  handleOpen() {
-    this.setState({ open: true });
-  }
-
-  handleClose( groupId ) {
-    //event.preventDefault();
-    this.props.deleteGroup(groupId, this.props.groups[0].userId, this.state);
-    this.setState(
-      {
-        name: ''
-      });
-    this.props.onCloseModal()
-  }
+  handleClose(){
+    this.setState({open: false});
+    this.props.deleteFriend(groupId, this.props.groups[0].userId, this.state);
+  };
 
   render() {
-    const actions = [
+   const actions = [
       <FlatButton
         label="Cancel"
         primary={true}
-        onTouchTap={ this.handleClose }
+        onTouchTap={this.handleClose}
       />,
       <FlatButton
-        label="Yes"
+        label="Discard"
         primary={true}
-        onTouchTap={ ()=>{this.handleClose(this.props.groupId)} }
+        onTouchTap={this.handleClose}
       />,
     ];
 
@@ -63,13 +53,14 @@ class DeleteGroup extends React.Component {
     return (
 
       <div>
-        <Dialog
-          title="Delete Group"
+       <RaisedButton label="Alert" onTouchTap={this.handleOpen} />
+         <Dialog
           actions={actions}
-          modal={true}
-          open={this.props.showModal}
+          modal={false}
+          open={this.state.open}
+          onRequestClose={this.handleClose}
         >
-          <p>Are you sure you want to delete this group</p>
+          sure to unfollow?
         </Dialog>
       </div>
     );
@@ -79,15 +70,15 @@ class DeleteGroup extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteGroup: (groupId, userId, state) =>  dispatch(deleteGroup(groupId, userId, state)),  
+    deleteFriend: (groupId, userId, state) =>  dispatch(deleteFriend(groupId, userId, state)),  
   };
 };
 
 
 const mapStateToProps = (store) => {
   return {
-    groups: store.groups
+    friends: store.friends
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeleteGroup);
+export default connect(mapStateToProps, mapDispatchToProps)(DeleteFriend);

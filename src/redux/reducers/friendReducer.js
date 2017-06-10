@@ -4,6 +4,7 @@ import axios from 'axios';
 const LOAD_FRIENDS_SUCCESS = 'LOAD_FRIENDS_SUCCESS';
 const SELECT_FRIEND_SUCCESS = 'SELECT_FRIEND_SUCCESS';
 const ADD_FRIEND_SUCCESS = 'ADD_FRIEND_SUCCESS';
+const DELETE_FRIEN_SUCCESS = 'DELETE_FRIEN_SUCCESS';
 
 // Action Creator
 const loadFriendsSuccess = (friends) => ({
@@ -41,7 +42,6 @@ const selectFriend = (gId, uId) => {
   };
 };
 
-
 const addFriend = (gId, state) => {
   return (dispatch) => {
     console.log('addFriend', gId, state);
@@ -50,6 +50,16 @@ const addFriend = (gId, state) => {
         dispatch(addFriendSuccess(response.data));
       })
       .catch(err => console.log('Error addFriend: ', err));
+  };
+};
+
+const deleteFriend = (groupId, userId, state) =>{
+  return (dispatch) => {
+    return axios.delete(`/api/group/${groupId}/${userId}`, state)
+    .then (response =>{
+      dispatch(loadFriends(groupId))
+    })
+    .catch(err => console.log('Error deleteGroup:', err)) ;
   };
 };
 
@@ -71,7 +81,7 @@ const friendReducer = (state = [], action) => {
 
 
 export {
-  loadFriends, selectFriend, addFriend
+  loadFriends, selectFriend, addFriend, deleteFriend
 };
 
 
