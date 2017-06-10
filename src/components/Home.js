@@ -27,7 +27,7 @@ class Home extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateLocation: (coordinates) => dispatch(updateLocation(coordinates)),
+    updateLocation: (coordinates, groupId) => dispatch(updateLocation(coordinates, groupId)),
   };
 };
 
