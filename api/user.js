@@ -7,7 +7,6 @@ const JWT_SECRET = process.env.JWT_SECRET || 'foo';
 // This is the API for anything related to the user
 // including setting location
 
-
 // GET auth
 // token exchange
 router.get('/auth/:token', (req, res, next) => {
