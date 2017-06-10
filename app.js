@@ -76,6 +76,7 @@ passport.use(
         db.models.User.findOne({ where: { email: profile.emails[0].value } })
           .then(function (user) {
             if (user) {
+              console.log('user already exists');
               user.googleId = profile.googleId;
               user.googleEmail = profile.emails[0].value;
               user.photo = profile.photos[0].value;
@@ -87,11 +88,23 @@ passport.use(
               googleId: profile.id,
               googleEmail: profile.emails[0].value,
               photo: profile.photos[0].value
+            })
+            .then((userInfo) => {
+              db.models.Group.create({
+                name: 'Default Group'
+              })
+            .then((groupInfo) => {
+                db.models.UserGroup.create({
+                  status: 'confirmed',
+                  userId: userInfo.dataValues.id,
+                  groupId: groupInfo.dataValues.id
+                }).then(()=> {
+                  done(null,userInfo.dataValues);
+                });
+              });
             });
           })
-          .then(function (user) {
-            done(null, user);
-          })
+
           .catch((err) => {
             console.log('err is=', err);
             done(err, null);
