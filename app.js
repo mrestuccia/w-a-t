@@ -73,14 +73,16 @@ passport.use(
           });
       } else {
 
+        let user = null;
+
         db.models.User.findOne({ where: { email: profile.emails[0].value } })
-          .then(function (user) {
-            if (user) {
+          .then(function (_user) {
+            if (_user) {
               console.log('user already exists');
-              user.googleId = profile.googleId;
-              user.googleEmail = profile.emails[0].value;
-              user.photo = profile.photos[0].value;
-              return user.save();
+              _user.googleId = profile.googleId;
+              _user.googleEmail = profile.emails[0].value;
+              _user.photo = profile.photos[0].value;
+              return _user.save();
             }
             return db.models.User.create({
               name: profile.name.givenName,
@@ -89,21 +91,31 @@ passport.use(
               googleEmail: profile.emails[0].value,
               photo: profile.photos[0].value
             })
-              .then((userInfo) => {
-                db.models.Group.create({
+          })
+          .then((_user) => {
+            user = _user;
+            return db.models.UserGroup.count(
+              {where:{userId:_user.id}} 
+            )
+          })
+          .then((number)=>{
+            if(number===0){
+              return db.models.Group.create({
                   name: 'Default Group'
                 })
                   .then((groupInfo) => {
                     db.models.UserGroup.create({
                       status: 'confirmed',
-                      userId: userInfo.dataValues.id,
-                      groupId: groupInfo.dataValues.id
+                      userId: user.id,
+                      groupId: groupInfo.id
                     });
                   });
-              });
-          })
-          .then((userInfo) => {
-            done(null, userInfo.dataValues);
+              }
+              return null;
+            })
+          .then(() => {
+            console.log('resulting user',  user);
+            done(null, user);
           })
           .catch((err) => {
             console.log('err is=', err);
@@ -153,14 +165,16 @@ passport.use(new FacebookStrategy({
         });
     } else {
 
+      let user = null;
+
       db.models.User.findOne({ where: { email: profile.emails[0].value } })
-        .then(function (user) {
-          if (user) {
+        .then(function (_user) {
+          if (_user) {
             console.log('normal found the user');
-            user.facebookId = profile.id;
-            user.facebookEmail = profile.emails[0].value;
-            user.photo = profile.photos[0].value;
-            return user.save();
+            _user.facebookId = profile.id;
+            _user.facebookEmail = profile.emails[0].value;
+            _user.photo = profile.photos[0].value;
+            return _user.save();
           }
           return db.models.User.create({
             name: profile.DisplayName,
@@ -170,13 +184,37 @@ passport.use(new FacebookStrategy({
             photo: profile.photos[0].value
           });
         })
-        .then(function (user) {
-          done(null, user);
-        })
-        .catch((err) => done(err, null));
-    }
-  }
-));
+        .then((_user) => {
+            user = _user;
+            return db.models.UserGroup.count(
+              {where:{userId:_user.id}} 
+            )
+          })
+          .then((number)=>{
+            if(number===0){
+              return db.models.Group.create({
+                  name: 'Default Group'
+                })
+                  .then((groupInfo) => {
+                    db.models.UserGroup.create({
+                      status: 'confirmed',
+                      userId: user.id,
+                      groupId: groupInfo.id
+                    });
+                  });
+              }
+              return null;
+            })
+          .then(() => {
+            console.log('resulting user',  user);
+            done(null, user);
+          })
+          .catch((err) => {
+            console.log('err is=', err);
+            done(err, null);
+          });
+      }
+    }));
 
 // Generic Passport function use by Facebook
 passport.serializeUser(function (user, done) {
@@ -259,4 +297,3 @@ app.get('/auth/facebook/:inviteCode', function (request, response, next) {
 app.use('/api', require('./api/'));
 
 module.exports = app;
-
