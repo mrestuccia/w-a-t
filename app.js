@@ -60,7 +60,7 @@ passport.use(
           .then(user => {
             console.log('google user found', user);
             user.googleId = profile.googleId;
-            user.googleEmail =  profile.emails[0].value;
+            user.googleEmail = profile.emails[0].value;
             user.photo = profile.photos[0].value;
             return user.save();
           })
@@ -89,22 +89,22 @@ passport.use(
               googleEmail: profile.emails[0].value,
               photo: profile.photos[0].value
             })
-            .then((userInfo) => {
-              db.models.Group.create({
-                name: 'Default Group'
-              })
-            .then((groupInfo) => {
-                db.models.UserGroup.create({
-                  status: 'confirmed',
-                  userId: userInfo.dataValues.id,
-                  groupId: groupInfo.dataValues.id
-                }).then(()=> {
-                  done(null,userInfo.dataValues);
-                });
+              .then((userInfo) => {
+                db.models.Group.create({
+                  name: 'Default Group'
+                })
+                  .then((groupInfo) => {
+                    db.models.UserGroup.create({
+                      status: 'confirmed',
+                      userId: userInfo.dataValues.id,
+                      groupId: groupInfo.dataValues.id
+                    });
+                  });
               });
-            });
           })
-
+          .then((userInfo) => {
+            done(null, userInfo.dataValues);
+          })
           .catch((err) => {
             console.log('err is=', err);
             done(err, null);
