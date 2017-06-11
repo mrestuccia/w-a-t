@@ -31,7 +31,11 @@ router.post('/:groupId', (req, res, next) => {
     // Find to see if already exist
     models.User.findOne({
       where: {
-        email: friend.email
+        $or: [
+          { email: friend.email },
+          { googleEmail: friend.email },
+          { facebookEmail: friend.email }
+        ]
       }
     })
       .then(_user => {
@@ -44,7 +48,7 @@ router.post('/:groupId', (req, res, next) => {
       .then(_user => {
         user = _user;
         // add the user to the group
-        return models.UserGroup.create({ userId: user.id, groupId: req.params.groupId });
+        return models.UserGroup.findOrCreate({ where: { userId: user.id, groupId: req.params.groupId } });
       })
       .then(_userGroup => {
         // notify the user via email
@@ -55,7 +59,7 @@ router.post('/:groupId', (req, res, next) => {
             include: [{ model: models.User }],
             where: { groupId: _userGroup.groupId, userId: _userGroup.userId }
           });
-        })
+      })
       .then(userGroup => {
         res.send(userGroup);
       });
