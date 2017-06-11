@@ -75,7 +75,14 @@ passport.use(
 
         let user = null;
 
-        db.models.User.findOne({ where: { email: profile.emails[0].value } })
+        db.models.User.findOne({
+          where: {
+            $or: [
+              { email: profile.emails[0].value },
+              { googleEmail: profile.emails[0].value },
+              { facebookEmail: profile.emails[0].value },
+            ]
+          }})
           .then(function (_user) {
             if (_user) {
               console.log('user already exists');
@@ -95,26 +102,26 @@ passport.use(
           .then((_user) => {
             user = _user;
             return db.models.UserGroup.count(
-              {where:{userId:_user.id}} 
+              { where: { userId: _user.id } }
             )
           })
-          .then((number)=>{
-            if(number===0){
+          .then((number) => {
+            if (number === 0) {
               return db.models.Group.create({
-                  name: 'Default Group'
-                })
-                  .then((groupInfo) => {
-                    db.models.UserGroup.create({
-                      status: 'confirmed',
-                      userId: user.id,
-                      groupId: groupInfo.id
-                    });
+                name: 'Default Group'
+              })
+                .then((groupInfo) => {
+                  db.models.UserGroup.create({
+                    status: 'confirmed',
+                    userId: user.id,
+                    groupId: groupInfo.id
                   });
-              }
-              return null;
-            })
+                });
+            }
+            return null;
+          })
           .then(() => {
-            console.log('resulting user',  user);
+            console.log('resulting user', user);
             done(null, user);
           })
           .catch((err) => {
@@ -167,7 +174,14 @@ passport.use(new FacebookStrategy({
 
       let user = null;
 
-      db.models.User.findOne({ where: { email: profile.emails[0].value } })
+      db.models.User.findOne({
+          where: {
+            $or: [
+              { email: profile.emails[0].value },
+              { googleEmail: profile.emails[0].value },
+              { facebookEmail: profile.emails[0].value },
+            ]
+          }})
         .then(function (_user) {
           if (_user) {
             console.log('normal found the user');
@@ -185,36 +199,36 @@ passport.use(new FacebookStrategy({
           });
         })
         .then((_user) => {
-            user = _user;
-            return db.models.UserGroup.count(
-              {where:{userId:_user.id}} 
-            )
-          })
-          .then((number)=>{
-            if(number===0){
-              return db.models.Group.create({
-                  name: 'Default Group'
-                })
-                  .then((groupInfo) => {
-                    db.models.UserGroup.create({
-                      status: 'confirmed',
-                      userId: user.id,
-                      groupId: groupInfo.id
-                    });
-                  });
-              }
-              return null;
+          user = _user;
+          return db.models.UserGroup.count(
+            { where: { userId: _user.id } }
+          )
+        })
+        .then((number) => {
+          if (number === 0) {
+            return db.models.Group.create({
+              name: 'Default Group'
             })
-          .then(() => {
-            console.log('resulting user',  user);
-            done(null, user);
-          })
-          .catch((err) => {
-            console.log('err is=', err);
-            done(err, null);
-          });
-      }
-    }));
+              .then((groupInfo) => {
+                db.models.UserGroup.create({
+                  status: 'confirmed',
+                  userId: user.id,
+                  groupId: groupInfo.id
+                });
+              });
+          }
+          return null;
+        })
+        .then(() => {
+          console.log('resulting user', user);
+          done(null, user);
+        })
+        .catch((err) => {
+          console.log('err is=', err);
+          done(err, null);
+        });
+    }
+  }));
 
 // Generic Passport function use by Facebook
 passport.serializeUser(function (user, done) {
