@@ -76,13 +76,12 @@ class Map extends React.Component{
     }
  
   render() {
-    const {googleMaps, friends} = this.props;
+    const {googleMaps, friends, lat, long, center, zoom } = this.props;
       if (friends[0] == undefined) {
           return null;
       } else {
         var groupCoordinates = []
           friends.map(friend => {
-            console.log(friend)
               var latlng = new google.maps.LatLng(friend.user.lat, friend.user.long)
               this.state.bounds.extend(latlng)
 
@@ -106,20 +105,18 @@ class Map extends React.Component{
                   }
               })
           })
-          console.log(groupCoordinates)
           var myCenter = this.state.bounds.getCenter();
-          var correctCenter = {lat: myCenter.lat(), lng: myCenter.lng()}
-          this.state.center = correctCenter
+          this.state.center = {lat: myCenter.lat(), lng: myCenter.lng()}
 
 
     return (
       <div style={{ width: '100%', height: '50%' }}>
         <GoogleMap
           googleMaps={googleMaps}
-          coordinates = {groupCoordinates}
-          center={correctCenter}
+          center={this.state.center}
           zoom={12}
           autoFitBounds={true}
+          coordinates = {groupCoordinates}
           onLoaded={(googleMaps, map) => {
             map.setMapTypeId(googleMaps.MapTypeId.ROADMAP)
           } }

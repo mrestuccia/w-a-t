@@ -39,7 +39,7 @@ class Home extends Component {
     const { updateLocation } = this.props;
     return (
       <div id="myApp">
-        <Map updateLocation={updateLocation}/>
+        <Map updateLocation={updateLocation} lat={this.state.lat} lng={this.state.lng} center={this.state.center} zoom={this.state.zoom}/>
         <GroupSelector />
         <FriendList lat={this.state.lat} lng={this.state.lng}changeValue={this.changeValue}/>
       </div>
