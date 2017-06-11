@@ -6,6 +6,9 @@ import SimpleMap from './SimpleMap';
 import GroupSelector from './Group/Group.js';
 import FriendList from './Friends';
 
+import MapComponent from './MapComponent';
+import Map from './MapComponent';
+
 
 class Home extends Component {
   constructor(props) {
@@ -16,7 +19,7 @@ class Home extends Component {
     const { updateLocation } = this.props;
     return (
       <div id="myApp">
-        <SimpleMap updateLocation={updateLocation} />
+        <Map updateLocation={updateLocation}/>
         <GroupSelector />
         <FriendList />
       </div>
@@ -39,4 +42,3 @@ const mapStateToProps = (store) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
-

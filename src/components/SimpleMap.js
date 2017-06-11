@@ -3,9 +3,6 @@ import { connect } from 'react-redux';
 import GoogleMapReact from 'google-map-react';
 import { loadFriends } from '../redux/reducers/friendReducer';
 
-
-
-
 const Marker = ({ text, icon, handleMarkerClick }) => {
     return (
         <div onClick={handleMarkerClick}>
@@ -46,8 +43,6 @@ class SimpleMap extends Component {
         });
     }
 
-
-
     // Initial polling function
     startPolling() {
         var self = this;
@@ -86,27 +81,28 @@ class SimpleMap extends Component {
             return null;
         } else {
             friends.map(friend => {
-                console.log(friend.user.lat)
-                console.log(friend.user.long)
                 var latlng = new google.maps.LatLng(friend.user.lat, friend.user.long)
                 this.state.bounds.extend(latlng)
-                console.log(latlng)
             })
-            console.log(this.state.bounds)
             var myCenter = this.state.bounds.getCenter();
-            // console.log(myCenter)
-            // console.log(this.state.center)
-            var centerLat = myCenter.lat()
-            var centerLong = myCenter.lng()
-            var correctCenter = {lat: centerLat, lng: centerLong}
-            console.log(correctCenter)
-            console.log(this.state.bounds)
+            var correctCenter = {lat: myCenter.lat(), lng: myCenter.lng()}
+            this.state.center = correctCenter
+            const correctBounds = {
+                sw: {
+                    lat: this.state.bounds.getSouthWest().lat(),
+                    lng: this.state.bounds.getSouthWest().lng()
+                }, ne: {
+                    lat: this.state.bounds.getNorthEast().lat(),
+                    lng: this.state.bounds.getNorthEast().lng()
+                }
+            }
+            this.state.bounds = correctBounds
             return (
                 <div style={{ width: '100%', height: '50%' }}>
                     <GoogleMapReact
-                        center= {correctCenter}
-                        zoom={this.state.zoom}
-                        bounds={this.state.bounds}
+                        center= {this.state.center}
+                        bounds= {this.state.bounds}
+                        zoom= {this.state.zoom}
                         >
                         {
                             friends.map(friend => {
