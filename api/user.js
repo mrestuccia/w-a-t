@@ -65,7 +65,7 @@ router.put('/:token', (req, res, next) => {
 
 
   // Check if I have the data: lat and long
-  if (!location && !location.lat && !location.lat && !decoded.id ) return res.sendStatus(404);
+  if (!location && !location.lat && !location.long && !decoded.id ) return res.sendStatus(404);
 
 
   // Find the user
