@@ -25,9 +25,8 @@ class friendList extends Component {
     this.state = {
       selected: {},
       open: false
-
-
     }
+
     this.onDeleteYes = this.onDeleteYes.bind(this);
     this.onClick = this.onClick.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
@@ -47,7 +46,6 @@ class friendList extends Component {
   onClick(fn, evt){
     //zoom the person
     fn(evt.user.lat, evt.user.long);
-
     this.setState({selected: evt})
     const lat = this.state.selected.user.lat;
     const lang = this.state.selected.user.lang;
@@ -73,7 +71,8 @@ class friendList extends Component {
   render() {
       
     const {friends, group, user, lat, lng, changeValue } = this.props;
-    console.log('SimpleMap', lat, lng);
+    //console.log('SimpleMap', lat, lng);
+    // console.log('friends[0]', friends[0].user.photo)
     const actions = [
       <FlatButton
         label="Cancel"
