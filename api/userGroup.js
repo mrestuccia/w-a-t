@@ -3,7 +3,7 @@ const jwt = require('jwt-simple');
 const JWT_SECRET = process.env.JWT_SECRET || 'foo';
 
 const models = require('../db').models;
-const sendEmail = require('./utils');
+const {sendEmail} = require('./utils');
 
 // GET
 // Join with Token is the confirmation

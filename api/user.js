@@ -1,8 +1,10 @@
 const router = require('express').Router();
 const models = require('../db').models;
+const { getDistanceFromLatLonInKm } = require('./utils');
 
 const jwt = require('jwt-simple');
 const JWT_SECRET = process.env.JWT_SECRET || 'foo';
+
 
 // This is the API for anything related to the user
 // including setting location
@@ -65,7 +67,7 @@ router.put('/:token', (req, res, next) => {
 
 
   // Check if I have the data: lat and long
-  if (!location && !location.lat && !location.long && !decoded.id ) return res.sendStatus(404);
+  if (!location && !location.lat && !location.long && !decoded.id) return res.sendStatus(404);
 
 
   // Find the user
@@ -74,11 +76,36 @@ router.put('/:token', (req, res, next) => {
       id: decoded.id
     }
   })
-    .then((user) => {
+    .then(user => {
       // Update the user
       user.lat = req.body.lat;
       user.long = req.body.long;
       return user.save();
+    })
+    .then(user => {
+      // Get all the users that are connections of this user
+      return models.UserGroup.findAll(
+        {
+          where: { userId: user.id },
+        });
+    })
+    .then((groups) => {
+      console.log('groups=', groups);
+      return Promise.all(groups.map(group => {
+        return models.UserGroup.findAll(
+          {
+            where: { groupId: group.groupId },
+            include: [models.User]
+          });
+      }));
+    })
+    .then((usersInGroups) => {
+      console.log('useringroups', usersInGroups);
+      usersInGroups.forEach(group => {
+        group.forEach(user => {
+          console.log('user=', user.user.id, user.user.lat, user.user.long, getDistanceFromLatLonInKm(location.lat, location.long, user.user.lat, user.user.long));
+        });
+      });
     })
     .then(() => {
       res.sendStatus(200);
