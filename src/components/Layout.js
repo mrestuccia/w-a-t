@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { logout } from '../actions/loginActions';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import {grey50} from 'material-ui/styles/colors';
 import AppBar from 'material-ui/AppBar';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -20,6 +21,7 @@ import Delete from 'material-ui/svg-icons/action/delete';
 import Edit from 'material-ui/svg-icons/editor/mode-edit';
 import EditGroup from './Group/EditGroup';
 import DeleteGroup from './Group/DeleteGroup';
+import EditLocation from 'material-ui/svg-icons/maps/edit-location';
 
 const style = {
     'marginTop': 10
@@ -36,13 +38,12 @@ const RightMenu = () => (
   
   <IconMenu
   iconButtonElement={
-      <IconButton><MoreVertIcon /></IconButton>
+      <IconButton><EditLocation color={grey50}/></IconButton>
     }
     targetOrigin={{horizontal: 'right', vertical: 'top'}}
     anchorOrigin={{horizontal: 'right', vertical: 'top'}}
   >
-    <MenuItem primaryText="Invite a Friend"/>
-    <MenuItem primaryText="Leave the Group" />
+    <MenuItem primaryText="Check In"/>
   </IconMenu>
 )
 

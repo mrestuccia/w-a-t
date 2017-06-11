@@ -13,7 +13,8 @@ router.get('/:token/join', (req, res, next) => {
   const token = req.params.token;
   let decoded = jwt.decode(token, JWT_SECRET);
   console.log('decoded:', decoded);
-  res.send(decoded);
+  //res.send(decoded);
+  res.redirect(`/#/login/${token}`);
 });
 
 
@@ -48,7 +49,7 @@ router.post('/:groupId', (req, res, next) => {
       .then(_userGroup => {
         // notify the user via email
         sendEmail(user, _userGroup);
-       
+
         return models.UserGroup.findOne(
           {
             include: [{ model: models.User }],

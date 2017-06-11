@@ -35,7 +35,7 @@ class DeleteGroup extends React.Component {
     this.setState({ open: true });
   }
 
-  handleClose( groupId) {
+  handleClose( groupId ) {
     //event.preventDefault();
     this.props.deleteGroup(groupId, this.props.groups[0].userId, this.state);
     this.setState(

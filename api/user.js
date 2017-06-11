@@ -7,7 +7,6 @@ const JWT_SECRET = process.env.JWT_SECRET || 'foo';
 // This is the API for anything related to the user
 // including setting location
 
-
 // GET auth
 // token exchange
 router.get('/auth/:token', (req, res, next) => {
@@ -66,7 +65,7 @@ router.put('/:token', (req, res, next) => {
 
 
   // Check if I have the data: lat and long
-  if (!location && !location.lat && !location.lat && !decoded.id ) return res.sendStatus(404);
+  if (!location && !location.lat && !location.long && !decoded.id ) return res.sendStatus(404);
 
 
   // Find the user

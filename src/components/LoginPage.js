@@ -31,13 +31,21 @@ class Login extends Component {
 
 
   render() {
+    var invitationGoogle = '/auth/google/';
+    var invitationFacebook = '/auth/facebook/';
+
+    var params = (this.props.params.inviteCode) ? this.props.params.inviteCode : '';
+
+    invitationGoogle = invitationGoogle + params;
+    invitationFacebook = invitationFacebook + params;
+
     return (
       <div>
         <form >
           <div className="social-box">
             <div className="row">
               <div className="social-row">
-                <a href="/auth/google" className="btn btn-block btn-social btn-google">
+                <a href={invitationGoogle} className="btn btn-block btn-social btn-google">
                   <i className="fa fa-google" />
                   Sign In With Google
                   </a>
@@ -46,7 +54,7 @@ class Login extends Component {
             <br />
             <div className="row">
               <div className="social-row">
-                <a href="/auth/facebook" className="btn btn-block btn-social btn-facebook" >
+                <a href={invitationFacebook} className="btn btn-block btn-social btn-facebook" >
                   <i className="fa fa-facebook" />Sign In with Facebook
                   </a>
               </div>
@@ -89,10 +97,10 @@ const mapDispatchToProps = (dispatch) => {
   return {
     login: (credentials) => {
       return dispatch(login(credentials))
-        .then( user => {
+        .then(user => {
           console.log('this user exsist!!!', user);
           hashHistory.push('/');
-      });
+        });
     }
   };
 };

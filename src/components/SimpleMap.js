@@ -69,14 +69,14 @@ class SimpleMap extends Component {
 
     // Function that is repeated sending the position to the store
     poll() {
-        const { updateLocation } = this.props;
+        const { friends, updateLocation } = this.props;
         this.getPosition()
-            .then((coordinates) => updateLocation(this.showPosition(coordinates)));
+            .then((coordinates) => updateLocation(this.showPosition(coordinates), friends[0].groupId));
     }
 
 
     render() {
-        const { friends } = this.props;
+        const { friends, lat, long, center, zoom } = this.props;
         if (friends[0] == undefined) {
             return null;
         } else {
@@ -97,8 +97,10 @@ class SimpleMap extends Component {
                 }
             }
             this.state.bounds = correctBounds
+            //console.log('selectedFriend from map', lat, lng)
             return (
                 <div style={{ width: '100%', height: '50%' }}>
+
                     <GoogleMapReact
                         center= {this.state.center}
                         bounds= {this.state.bounds}
