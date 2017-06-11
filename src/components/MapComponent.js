@@ -104,7 +104,6 @@ class Map extends React.Component{
                       this.handleMarkerClick(marker.position.lat(), marker.position.lng())
                     })
                   }
-                  
               })
           })
           console.log(groupCoordinates)

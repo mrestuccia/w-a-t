@@ -40,7 +40,6 @@ class Home extends Component {
     return (
       <div id="myApp">
         <Map updateLocation={updateLocation}/>
-        <SimpleMap updateLocation={updateLocation} lat={this.state.lat} lng={this.state.lng} center={this.state.center} zoom={this.state.zoom}/>
         <GroupSelector />
         <FriendList lat={this.state.lat} lng={this.state.lng}changeValue={this.changeValue}/>
       </div>
@@ -63,3 +62,5 @@ const mapStateToProps = (store) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
+
+        // <SimpleMap updateLocation={updateLocation} lat={this.state.lat} lng={this.state.lng} center={this.state.center} zoom={this.state.zoom}/>
