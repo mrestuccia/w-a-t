@@ -22,6 +22,7 @@ import Edit from 'material-ui/svg-icons/editor/mode-edit';
 import EditGroup from './Group/EditGroup';
 import DeleteGroup from './Group/DeleteGroup';
 import EditLocation from 'material-ui/svg-icons/maps/edit-location';
+import NameLocation from './NameLocation';
 
 const style = {
     'marginTop': 10
@@ -34,20 +35,20 @@ const muiTheme = getMuiTheme({
   }
 });
 
-const RightMenu = () => (
+// const RightMenu = () => (
   
-  <IconMenu
-  iconButtonElement={
-      <IconButton><EditLocation color={grey50}/></IconButton>
-    }
-    targetOrigin={{horizontal: 'right', vertical: 'top'}}
-    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-  >
-    <MenuItem primaryText="Check In"/>
-  </IconMenu>
-)
+//   <IconMenu
+//   iconButtonElement={
+//       <IconButton><EditLocation color={grey50}/></IconButton>
+//     }
+//     targetOrigin={{horizontal: 'right', vertical: 'top'}}
+//     anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+//   >
+//     <MenuItem primaryText="Check In"/>
+//   </IconMenu>
+// )
 
-RightMenu.muiName = "IconMenu" ;
+// RightMenu.muiName = "IconMenu" ;
 
 
 class Layout extends Component {
@@ -91,8 +92,7 @@ class Layout extends Component {
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
       <div className='header'>
-        {/*<AppBar title='Where Are They' iconElementLeft={ !user.id ? <Link to='/login'>Login</Link>: <Menu user={user}  />} />*/}
-        <AppBar style={{fontFamily:'Audiowide'}} title='WAT' onLeftIconButtonTouchTap={this.toggleMenu} iconElementRight={ !user.id? <IconButton/>:<RightMenu/>}/>
+        <AppBar style={{fontFamily:'Audiowide'}} title='WAT' onLeftIconButtonTouchTap={this.toggleMenu} iconElementRight={ !user.id? <IconButton/>:<NameLocation/>}/>
         <Drawer open={this.state.open} docked={false} onRequestChange={(open) => this.setState({open})}>
               <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'none' : 'block'}}><Link to='/login'>Log In</Link> </MenuItem>
               <MenuItem onTouchTap={this.closeMenu} style={{display: user.id ? 'block' : 'none'}}>Hi {user.name}!
@@ -112,12 +112,6 @@ class Layout extends Component {
               })
             }
             <MenuItem onTouchTap={this.closeMenu} onClick={logout} style={{display: user.id ? 'block' : 'none'}}>Log Out</MenuItem> ;
-              {/*<MenuItem style={{display: user.id ? 'block' : 'none'}} primaryText="Group:Family" checked={true} rightIcon={<ArrowDropRight/>}
-              menuItems={[
-                <MenuItem primaryText="Family" checked={true}/>,
-              ]}
-              />
-              */}
           </Drawer>
           <EditGroup showModal={this.state.showEditModal} groupId={this.state.groupId} onCloseModal={this.showEditModal}/>
           <DeleteGroup showModal={this.state.showDeleteModal} groupId={this.state.groupId} onCloseModal={this.showDeleteModal}/>
