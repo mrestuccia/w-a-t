@@ -3,9 +3,6 @@ import { connect } from 'react-redux';
 import GoogleMapReact from 'google-map-react';
 import { loadFriends } from '../redux/reducers/friendReducer';
 
-
-
-
 const Marker = ({ text, icon, handleMarkerClick }) => {
     return (
         <div onClick={handleMarkerClick}>
@@ -45,8 +42,6 @@ class SimpleMap extends Component {
         });
     }
 
-
-
     // Initial polling function
     startPolling() {
         var self = this;
@@ -80,15 +75,17 @@ class SimpleMap extends Component {
 
 
     render() {
-        const { friends } = this.props;
-        if (friends[0] === undefined) {
+        const { friends, lat, long, center, zoom } = this.props;
+        if (friends[0] == undefined) {
             return null;
         } else {
+            //console.log('selectedFriend from map', lat, lng)
             return (
                 <div style={{ width: '100%', height: '50%' }}>
+
                     <GoogleMapReact
-                        center={this.state.center}
-                        zoom={this.state.zoom}>
+                        center={center}
+                        zoom={zoom}>
                         {
                             friends.map(friend => {
                                 return (
