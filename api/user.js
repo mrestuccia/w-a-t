@@ -69,6 +69,8 @@ router.put('/:token', (req, res, next) => {
   // Check if I have the data: lat and long
   if (!location && !location.lat && !location.long && !decoded.id) return res.sendStatus(404);
 
+  // Create a queue
+  let queue = [];
 
   // Find the user
   models.User.findOne({
@@ -90,7 +92,6 @@ router.put('/:token', (req, res, next) => {
         });
     })
     .then((groups) => {
-      console.log('groups=', groups);
       return Promise.all(groups.map(group => {
         return models.UserGroup.findAll(
           {
@@ -100,10 +101,16 @@ router.put('/:token', (req, res, next) => {
       }));
     })
     .then((usersInGroups) => {
-      console.log('useringroups', usersInGroups);
       usersInGroups.forEach(group => {
         group.forEach(user => {
-          console.log('user=', user.user.id, user.user.lat, user.user.long, getDistanceFromLatLonInKm(location.lat, location.long, user.user.lat, user.user.long));
+          if (user.user.id != decoded.id) {
+            // Is not me
+            if (getDistanceFromLatLonInKm(location.lat, location.long, user.user.lat, user.user.long) < 0.1) {
+              // It's less than 100 meters
+              queue.push(user.user);
+              console.log('user=', user.user.id, user.user.lat, user.user.long, getDistanceFromLatLonInKm(location.lat, location.long, user.user.lat, user.user.long));
+            }
+          }
         });
       });
     })
