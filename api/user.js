@@ -113,9 +113,10 @@ router.put('/:token', (req, res, next) => {
           }
         });
       });
+      return queue;
     })
-    .then(() => {
-      res.sendStatus(200);
+    .then(_queue => {
+      res.status(200).send(_queue);
     })
     .catch(next);
 });
