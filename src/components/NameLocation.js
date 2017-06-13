@@ -1,6 +1,6 @@
 import React from 'react';
-// import { connect } from 'react-redux';
-
+import { connect } from 'react-redux';
+import {addUserLocation} from '../redux/reducers/userLocationReducer';
 //need to import from reducer ../../redux/reducers/namelocation;
 
 import EditLocation from 'material-ui/svg-icons/maps/edit-location';
@@ -40,6 +40,7 @@ class NameLocation extends React.Component {
 
   handleClose(event) {
     event.preventDefault();
+    this.props.addUserLocation(this.props.userId, this.state);
     this.setState(
       {
         open: false,
@@ -57,7 +58,6 @@ class NameLocation extends React.Component {
       <FlatButton
         label="Submit"
         primary={true}
-        /*disabled={this.state.name.length === 0 || this.state.email.length === 0}*/
         onTouchTap={ this.handleClose }
       />,
     ];
@@ -80,6 +80,18 @@ class NameLocation extends React.Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addUserLocation: (userId, state) =>  dispatch(addUserLocation(userId, state)),  
+  };
+};
 
 
-export default NameLocation;
+const mapStateToProps = (store) => {
+  return {
+    userLocation: store.userLocation,
+    userId: store.user.id
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NameLocation);

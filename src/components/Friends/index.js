@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { loadFriends, deleteFriend } from '../../redux/reducers/friendReducer';
+// import {addUserLocation} from '../redux/reducers/userLocationReducer';
 import { List, ListItem } from 'material-ui/List';
 import SimpleMap from '../SimpleMap';
 
@@ -25,8 +26,6 @@ class friendList extends Component {
     this.state = {
       selected: {},
       open: false
-
-
     }
     this.onDeleteYes = this.onDeleteYes.bind(this);
     this.onClick = this.onClick.bind(this);
