@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { loadFriends, deleteFriend } from '../../redux/reducers/friendReducer';
+// import {addUserLocation} from '../redux/reducers/userLocationReducer';
 import { List, ListItem } from 'material-ui/List';
 import SimpleMap from '../SimpleMap';
 

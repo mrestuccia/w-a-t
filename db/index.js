@@ -4,7 +4,7 @@ const faker = require('faker');
 const User = require('./user');
 const Group = require('./group');
 const UserGroup = require('./userGroup');
-const UserLocations = require('./userLocations');
+const UserLocation = require('./userLocations');
 
 
 Group.belongsTo(User, { as: 'owner' });
@@ -15,7 +15,7 @@ UserGroup.belongsTo(Group, { onDelete: 'CASCADE' });
 User.hasMany(UserGroup);
 Group.hasMany(UserGroup);
 
-User.hasMany(UserLocations);
+User.hasMany(UserLocation);
 
 const sync = () => conn.sync({ force: true });
 
@@ -67,7 +67,7 @@ module.exports = {
     Group,
     User,
     UserGroup,
-    UserLocations
+    UserLocation
   },
   sync,
   seed
