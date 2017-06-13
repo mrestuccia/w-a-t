@@ -1,7 +1,7 @@
 
 import axios from 'axios';
 //haha
-import { loginUserSuccess, logoutSuccess, locationSuccess } from './userActionTypes';
+import { loginUserSuccess, logoutSuccess, locationSuccess, nearbySuccess } from './userActionTypes';
 import { loadGroups } from '../redux/reducers/groupReducer';
 import { loadFriends } from '../redux/reducers/friendReducer';
 
@@ -49,7 +49,13 @@ const updateLocation = (coordinates, groupId) => {
   return (dispatch) => {
     return axios.put(`/api/user/${token}`, coordinates)
       .then(response => response.data)
-      .then(() => dispatch(locationSuccess(coordinates)))
+      .then(response => {
+        console.log('update nearby people', response);
+        return dispatch(nearbySuccess(response));
+      })
+      .then(() => {
+        return dispatch(locationSuccess(coordinates));
+      })
       .then(() => {
         if (groupId) dispatch(loadFriends(groupId));
         return Promise.resolve();
