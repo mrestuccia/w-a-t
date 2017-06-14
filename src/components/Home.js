@@ -6,7 +6,6 @@ import SimpleMap from './SimpleMap';
 import GroupSelector from './Group/Group.js';
 import FriendList from './Friends';
 
-import MapComponent from './MapComponent';
 import Map from './MapComponent';
 
 
@@ -39,7 +38,7 @@ class Home extends Component {
     const { updateLocation } = this.props;
     return (
       <div id="myApp">
-        <Map updateLocation={updateLocation} lat={this.state.lat} lng={this.state.lng} center={this.state.center} zoom={this.state.zoom}/>
+        <SimpleMap updateLocation={updateLocation} lat={this.state.lat} lng={this.state.lng} center={this.state.center} zoom={this.state.zoom}/>
         <GroupSelector />
         <FriendList lat={this.state.lat} lng={this.state.lng}changeValue={this.changeValue}/>
       </div>
@@ -62,5 +61,3 @@ const mapStateToProps = (store) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
-
-        // <SimpleMap updateLocation={updateLocation} lat={this.state.lat} lng={this.state.lng} center={this.state.center} zoom={this.state.zoom}/>
