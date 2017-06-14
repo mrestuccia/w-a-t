@@ -5,6 +5,7 @@ import { updateLocation } from '../actions/loginActions';
 import SimpleMap from './SimpleMap';
 import GroupSelector from './Group/Group.js';
 import FriendList from './Friends';
+import Notifications from './Notifications';
 
 import Map from './MapComponent';
 
@@ -40,7 +41,8 @@ class Home extends Component {
       <div id="myApp">
         <SimpleMap updateLocation={updateLocation} lat={this.state.lat} lng={this.state.lng} center={this.state.center} zoom={this.state.zoom}/>
         <GroupSelector />
-        <FriendList lat={this.state.lat} lng={this.state.lng}changeValue={this.changeValue}/>
+        <FriendList lat={this.state.lat} lng={this.state.lng} changeValue={this.changeValue} />
+        <Notifications />
       </div>
     );
   }

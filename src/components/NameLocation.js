@@ -1,26 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addFriend } from '../../redux/reducers/friendReducer';
+import {addUserLocation} from '../redux/reducers/userLocationReducer';
+//need to import from reducer ../../redux/reducers/namelocation;
 
-
+import EditLocation from 'material-ui/svg-icons/maps/edit-location';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
+import {grey50} from 'material-ui/styles/colors';
+import IconButton from 'material-ui/IconButton';
 
 const style = {
   marginRight: 0,
 };
 
 
-class AddFriend extends React.Component {
+class NameLocation extends React.Component {
   constructor() {
     super();
     this.state = {
       open: false,
-      name: '',
-      email: ''
+      name: ''
     };
 
     this.handleOpen = this.handleOpen.bind(this);
@@ -40,13 +40,11 @@ class AddFriend extends React.Component {
 
   handleClose(event) {
     event.preventDefault();
-
-    this.props.addFriend(this.props.friends[0].groupId, this.state);
+    this.props.addUserLocation(this.props.userId, this.state);
     this.setState(
       {
         open: false,
-        name: '',
-        email: ''
+        name: ''
       });
   }
 
@@ -58,9 +56,8 @@ class AddFriend extends React.Component {
         onTouchTap={ this.handleClose }
       />,
       <FlatButton
-        label="Invite"
+        label="Submit"
         primary={true}
-        disabled={this.state.name.length === 0 || this.state.email.length === 0}
         onTouchTap={ this.handleClose }
       />,
     ];
@@ -68,40 +65,33 @@ class AddFriend extends React.Component {
 
     return (
       <div>
-         <FloatingActionButton secondary={true} style={style}>
-            <ContentAdd onTouchTap={this.handleOpen} />
-          </FloatingActionButton>
-
+         <IconButton><EditLocation color={grey50} onTouchTap = {this.handleOpen}/></IconButton>
         <Dialog
-          title="Add Friend"
+          title="Name your Location"
           actions={actions}
           modal={true}
           open={this.state.open}
         >
-          <p>Enter your friend's name and email</p>
-
-          <TextField id="friend-name" hintText="Enter Name" floatingLabelText="Name" value={this.state.name} onChange={(event, newValue) => this.setState({ name: newValue })} />
-          <br />
-          <TextField id="friend-email" hintText="Enter Email" floatingLabelText="Email" value={this.state.email} onChange={(event, newValue) => this.setState({ email: newValue })} />
-
+          <p>Enter your Location Name</p>
+          <TextField id="location-name" hintText="Enter Location Name" floatingLabelText="Name" value={this.state.name} onChange={(event, newValue) => this.setState({ name: newValue })} />    
         </Dialog>
       </div>
     );
   }
 }
 
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    addFriend: (gId, state) =>  dispatch(addFriend(gId, state)),  
+    addUserLocation: (userId, state) =>  dispatch(addUserLocation(userId, state)),  
   };
 };
 
 
 const mapStateToProps = (store) => {
   return {
-    friends: store.friends
+    userLocation: store.userLocation,
+    userId: store.user.id
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddFriend);
+export default connect(mapStateToProps, mapDispatchToProps)(NameLocation);
