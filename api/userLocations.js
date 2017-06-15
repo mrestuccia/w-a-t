@@ -31,31 +31,15 @@ router.post('/:userid', (req, res, next) => {
 });
 
 // Delete
-// router.delete('/:userId/locationId', (req, res, next) => {
 
+// router.delete('/:userId',(req,res,next)=>{
+//   models.UserLocation.destroy({where:{userId:req.param.userId, id:req.params.locationId }})
+//   .then(count => {
+//     return res.sendStatus(404)
+//   } else{
 
-//     // Delete myself from the group
-//     models.UserGroup.destroy({ where: { userId: req.params.userId, groupId: req.params.groupId } })
-//       .then(count => {
-//         if (count === 0) {
-//           return res.sendStatus(404)
-//         } else {
-//           return models.UserGroup.count({ where: { groupId: req.params.groupId } })
-//         }
-//       })
-//       .then(count => {
-//         if (count === 0) {
-//           return models.UserGroup.destroy({ where: { groupId: req.params.groupId } })
-//         }
-//         return count;
-//       })
-//       .then(count => {
-//         res.status(200).send({count});
-//       })
-//       .catch(next);
 //   }
-// });
- 
-
+//   )
+// })
 
 module.exports = router;
