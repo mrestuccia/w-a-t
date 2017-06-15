@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {addUserLocation} from '../redux/reducers/userLocationReducer';
 //need to import from reducer ../../redux/reducers/namelocation;
-
+import { loadFriends } from '../redux/reducers/friendReducer';
 import EditLocation from 'material-ui/svg-icons/maps/edit-location';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
@@ -41,6 +41,7 @@ class NameLocation extends React.Component {
   handleClose(event) {
     event.preventDefault();
     this.props.addUserLocation(this.props.userId, this.state);
+    //this.props.loadFriends(value);
     this.setState(
       {
         open: false,

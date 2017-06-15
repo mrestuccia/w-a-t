@@ -27,6 +27,8 @@ const seed = () => {
     { name: 'Arum', email: 'arumbit@gmail.com' },
     { name: 'Mauro', email: 'mrestuccia@mac.com' }
   ];
+  const userlocations = [{name:'Home', lat:'40.7502672', long:'-73.9764766', userId:'1'},
+  {name:'Work', lat:'40.749686', long:'-73.977407', userId:'2'}];
   let group1, group2, group3, user1, user2, user3, user4;
 
   return sync()
@@ -55,6 +57,8 @@ const seed = () => {
       UserGroup.create({ userId: user4.id, groupId: group2.id, status: 'confirmed' });
       UserGroup.create({ userId: user1.id, groupId: group3.id, status: 'confirmed' });
 
+     // UserLocation.create({name:'Home', lat:'40.7502672', long:'-73.9764766', userId:'1'});
+       UserLocation.bulkCreate(userlocations)
       // Add the owner of the group
       group1.setOwner(user1);
       group2.setOwner(user1);
