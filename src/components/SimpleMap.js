@@ -47,7 +47,7 @@ class SimpleMap extends Component {
         var self = this;
         setTimeout(function () {
             self.poll();
-            self._timer = setInterval(self.poll.bind(self), process.env.FREQUENCY || 60000 );
+            self._timer = setInterval(self.poll.bind(self), 3000);
         }, 1000);
     }
 
@@ -69,9 +69,8 @@ class SimpleMap extends Component {
     // Function that is repeated sending the position to the store
     poll() {
         const { friends, updateLocation } = this.props;
-        if (friends[0] === undefined) return null;
         this.getPosition()
-            .then((coordinates) => updateLocation(this.showPosition(coordinates), friends[0].groupId));
+            .then((coordinates) => updateLocation(this.showPosition(coordinates), friends[0].groupId || 1));
     }
 
 
