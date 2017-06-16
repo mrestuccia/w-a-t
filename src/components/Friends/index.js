@@ -17,7 +17,15 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 
-console.log('SimpleMap');
+const style = {
+  marginRight: 10,
+  marginTop: 10,
+};
+
+const ListStyle = {
+   margin: 0,
+   height: '100px'
+}
 
 class friendList extends Component {
   constructor(props) {
@@ -88,17 +96,18 @@ class friendList extends Component {
     return (
        <div >
           <List >
-            <Subheader>Friends List {lat} {lng}</Subheader>
+           
             {
               friends.map(friend => {
                 return (<ListItem 
+                   style={ListStyle}                 
                   onClick = {()=>this.onClick(changeValue, friend)}
                   value={friend.id}
                   leftAvatar={<Avatar src={friend.user.photo} />}
                   key={friend.id}
                   rightIconButton={
                   <div>
-                  <IconButton onClick={this.handleOpen}><Delete  /></IconButton>
+                  <IconButton onClick={this.handleOpen} style={style}><Delete /></IconButton>
                       <Dialog
                         title="Delete Friend"
                         actions={actions}

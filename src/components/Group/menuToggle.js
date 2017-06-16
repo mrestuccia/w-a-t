@@ -1,72 +1,38 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addFriend } from '../../redux/reducers/friendReducer';
 
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import TextField from 'material-ui/TextField';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
+// import ContentAdd from 'material-ui/svg-icons/content/add';
+
+const style = {
+  marginRight: 0,
+
+};
 
 
 class AddFriend extends React.Component {
   constructor() {
     super();
     this.state = {
-      open: false,
-      name: '',
-      email: ''
+      open: true,
     };
-
-    this.handleOpen = this.handleOpen.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-    this.onChange = this.onChange.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
 
 
-  onChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
+  onClick(event) {
+    this.setState({ open: !this.state.open });
   }
 
-
-  handleOpen() {
-    this.setState({ open: true });
-  }
-
-  handleClose(event) {
-    event.preventDefault();
-
-    this.props.addFriend(this.props.friends[0].groupId, this.state);
-    this.setState(
-      {
-        open: false,
-        name: '',
-        email: ''
-      });
-  }
 
   render() {
-    const actions = [
-      <FlatButton
-        label="Cancel"
-        primary={true}
-        onTouchTap={ this.handleClose }
-      />,
-      <FlatButton
-        label="Invite"
-        primary={true}
-        disabled={this.state.name.length === 0 || this.state.email.length === 0}
-        onTouchTap={ this.handleClose }
-      />,
-    ];
-
-
+   
     return (
       <div>
-         <FloatingActionButton secondary={true} mini={true}>
+         <FloatingActionButton secondary={true} mini={true} style={style}>
             <ContentAdd onTouchTap={this.handleOpen} />
           </FloatingActionButton>
-
+ 
         <Dialog
           title="Add Friend"
           actions={actions}

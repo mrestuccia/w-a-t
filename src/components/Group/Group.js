@@ -7,17 +7,27 @@ import AddFriend from './AddFriend';
 import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import FlatButton from 'material-ui/FlatButton';
+import ExpendLess from 'material-ui/svg-icons/navigation/expand-less';
+import ExpendMore from 'material-ui/svg-icons/navigation/expand-more';
+
 
 
 const toolbarStyle = {
   backgroundColor: 'white',
+  //'font-size': '150%',
 };
+const style={
+  margin: 'auto',
+}
 
 class GroupSelector extends React.Component {
   constructor() {
     super();
     this.state = {
       value: 1,
+      buttonShape: 1, 
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -28,13 +38,14 @@ class GroupSelector extends React.Component {
     this.props.loadFriends(value);
   }
 
-  // componentWillReceiveProps(props, nextProps){
-  //   console.log(props, nextProps)
-
-  // }
-
   render() {
+    
     if (!this.props.groups) return null;
+
+    const { handleList, showList } = this.props;
+
+    const button = (showList === true) ? <ExpendMore />: <ExpendLess />
+    
     return (
       <Toolbar style={toolbarStyle}>
         <ToolbarGroup firstChild={true}>
@@ -47,9 +58,12 @@ class GroupSelector extends React.Component {
               })
             }
           </DropDownMenu>
+          
+           <FlatButton style={style} onTouchTap={handleList}>
+          { button }  </FlatButton>
         </ToolbarGroup>
         <ToolbarGroup>
-          <AddFriend />
+          <AddFriend />          
         </ToolbarGroup>
       </Toolbar>
     );
