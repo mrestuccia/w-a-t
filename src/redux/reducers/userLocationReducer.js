@@ -15,6 +15,7 @@ const addUserLocationSuccess = (userlocation) => ({
 
 const addUserLocation = (userId, state) => {
   return (dispatch) => {
+    console.log('updating user location');
     return axios.post(`/api/userlocation/${userId}`, state )
       .then(response => {
         dispatch(addUserLocationSuccess(response.data));
