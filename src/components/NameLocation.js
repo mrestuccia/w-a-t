@@ -40,8 +40,7 @@ class NameLocation extends React.Component {
 
   handleClose(event) {
     event.preventDefault();
-    this.props.addUserLocation(this.props.userId, this.state);
-    //this.props.loadFriends(value);
+    this.props.addUserLocation(this.props.userId, this.state, this.props.friends[0].groupId);
     this.setState(
       {
         open: false,
@@ -83,7 +82,12 @@ class NameLocation extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addUserLocation: (userId, state) =>  dispatch(addUserLocation(userId, state)),  
+    addUserLocation: (userId, state, groupId) =>  {
+      return dispatch(addUserLocation(userId, state))
+          .then(() => {
+            dispatch(loadFriends(groupId));
+          });
+    } 
   };
 };
 
@@ -91,7 +95,8 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (store) => {
   return {
     userLocation: store.userLocation,
-    userId: store.user.id
+    userId: store.user.id,
+    friends: store.friends
   }
 }
 
