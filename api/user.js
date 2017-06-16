@@ -64,6 +64,8 @@ router.put('/:token', (req, res, next) => {
 
   const decoded = jwt.decode(token, JWT_SECRET);
 
+  console.log('update location on server', location, token);
+
 
   // Check if I have the data: lat and long
   if (!location && !location.lat && !location.long && !decoded.id) return res.sendStatus(404);
