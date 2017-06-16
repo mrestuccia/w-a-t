@@ -83,9 +83,10 @@ class friendList extends Component {
 
   render() {
       
-    const {friends, group, user, lat, lng, changeValue } = this.props;
-    console.log(friends[0].user);
-    console.log('I am printing friend zero dot user',friends[0].user.userlocations[0].name)
+    const {friends, lat, lng, changeValue } = this.props;
+      if(!friends) return null;
+    // console.log(friends[0].user);
+    // console.log('I am printing friend zero dot user',friends[0].user.userlocations[0].name)
     //console.log('SimpleMap', lat, lng);
     // console.log('friends[0]', friends[0].user.photo)
     const actions = [

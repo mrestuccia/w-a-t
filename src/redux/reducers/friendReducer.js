@@ -29,7 +29,7 @@ const loadFriends = (gId) => {
   return (dispatch) => {
     return axios.get(`/api/group/${gId}`)
       .then(response => {
-        // console.log('friendlist', response.data)
+        console.log('loadFriends', response.data)
         return dispatch(loadFriendsSuccess(response.data));
       });
   };

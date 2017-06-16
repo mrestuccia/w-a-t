@@ -26,7 +26,7 @@ router.get("/:id", (req, res, next) => {
         //check if this use has any location label
         if (userLocations.length > 0) {
           // define the radius
-          let closestDistance = 10;
+          let closestDistance = 0.1;
           let locationLabel = "";
           userLocations.forEach(location => {
             let currentDistance = getDistanceFromLatLonInKm(
