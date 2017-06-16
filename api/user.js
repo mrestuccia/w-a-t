@@ -12,7 +12,6 @@ const JWT_SECRET = process.env.JWT_SECRET || 'foo';
 // GET auth
 // token exchange
 router.get('/auth/:token', (req, res, next) => {
-  console.log('test token', req.params.token);
   const token = jwt.decode(req.params.token, JWT_SECRET);
   models.User.findById(token.id)
     .then(user => res.send(user))
@@ -103,12 +102,11 @@ router.put('/:token', (req, res, next) => {
     .then((usersInGroups) => {
       usersInGroups.forEach(group => {
         group.forEach(user => {
-          if (user.user.id != decoded.id) {
+          if (user.user.id !== decoded.id) {
             // Is not me
             if (getDistanceFromLatLonInKm(location.lat, location.long, user.user.lat, user.user.long) < 0.1) {
               // It's less than 100 meters
               queue.push(user.user);
-              console.log('user=', user.user.id, user.user.lat, user.user.long, getDistanceFromLatLonInKm(location.lat, location.long, user.user.lat, user.user.long));
             }
           }
         });

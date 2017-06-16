@@ -14,12 +14,10 @@ const facebookClientSecret = process.env.facebookClientSecret || require('./conf
 const facebookCallbackURL = process.env.facebookCallbackURL || require('./config.js').facebook.callbackURL;
 const FacebookStrategy = require('passport-facebook').Strategy;
 
-
 const jwt = require('jwt-simple');
-const router = require('express').Router();
 const db = require('./db');
 const passport = require('passport');
-const JWT_SECRET = 'foo';
+const JWT_SECRET = process.env.JWT_SECRET || 'foo';
 
 
 app.use(require('body-parser').json());

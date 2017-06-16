@@ -76,12 +76,10 @@ class Layout extends Component {
   }
 
   showEditModal(groupId){
-    console.log(groupId)
     this.setState({groupId: groupId, showEditModal: !this.state.showEditModal})
   }
 
   showDeleteModal(groupId){
-    console.log(groupId)
     this.setState({groupId: groupId, showDeleteModal: !this.state.showDeleteModal})
   }
 

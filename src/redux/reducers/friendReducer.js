@@ -4,7 +4,6 @@ import axios from 'axios';
 const LOAD_FRIENDS_SUCCESS = 'LOAD_FRIENDS_SUCCESS';
 const SELECT_FRIEND_SUCCESS = 'SELECT_FRIEND_SUCCESS';
 const ADD_FRIEND_SUCCESS = 'ADD_FRIEND_SUCCESS';
-const DELETE_FRIEN_SUCCESS = 'DELETE_FRIEN_SUCCESS';
 
 // Action Creator
 const loadFriendsSuccess = (friends) => ({
@@ -25,11 +24,9 @@ const addFriendSuccess = (friend) => ({
 
 // Axios Call
 const loadFriends = (gId) => {
-  // console.log('loadfried', gId)
   return (dispatch) => {
     return axios.get(`/api/group/${gId}`)
       .then(response => {
-        console.log('loadFriends', response.data)
         return dispatch(loadFriendsSuccess(response.data));
       });
   };
@@ -53,11 +50,11 @@ const addFriend = (gId, state) => {
   };
 };
 
-const deleteFriend = (groupId, userId, state) =>{
+const deleteFriend = (groupId, userId, state) => {
   return (dispatch) => {
     return axios.delete(`/api/group/${groupId}/${userId}`, state)
-    .then (response =>{
-      dispatch(loadFriends(groupId))
+      .then(() => {
+      dispatch(loadFriends(groupId));
     })
     .catch(err => console.log('Error deleteGroup:', err)) ;
   };
@@ -68,12 +65,10 @@ const deleteFriend = (groupId, userId, state) =>{
 const friendReducer = (state = [], action) => {
   switch (action.type) {
     case LOAD_FRIENDS_SUCCESS:
-    console.log('my fries', action.friends);
       return action.friends;
     case SELECT_FRIEND_SUCCESS:
       return action.friend;
     case ADD_FRIEND_SUCCESS:
-      console.log('adding...', action.friend);
       return [...state, action.friend];
     default:
       return state;

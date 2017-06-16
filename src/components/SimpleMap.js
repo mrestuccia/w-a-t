@@ -47,7 +47,7 @@ class SimpleMap extends Component {
         var self = this;
         setTimeout(function () {
             self.poll();
-            self._timer = setInterval(self.poll.bind(self), 60000);
+            self._timer = setInterval(self.poll.bind(self), process.env.FREQUENCY || 60000 );
         }, 1000);
     }
 
@@ -69,14 +69,15 @@ class SimpleMap extends Component {
     // Function that is repeated sending the position to the store
     poll() {
         const { friends, updateLocation } = this.props;
+        if (friends[0] === undefined) return null;
         this.getPosition()
             .then((coordinates) => updateLocation(this.showPosition(coordinates), friends[0].groupId));
     }
 
 
     render() {
-        const { friends, lat, long, center, zoom, mapHeight } = this.props;
-        if (friends[0] == undefined) {
+        const { friends, center, zoom, mapHeight } = this.props;
+        if (friends[0] === undefined) {
             return null;
         } else {
             return (
@@ -97,7 +98,7 @@ class SimpleMap extends Component {
                                         lng={friend.user.long}
                                         handleMarkerClick={() => this.handleMarkerClick(friend.user.lat, friend.user.long)}
                                     />
-                                )
+                                );
                             }
                             )
                         }
@@ -120,6 +121,6 @@ const mapStateToProps = (store) => {
         friends: store.friends
     };
 
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SimpleMap);

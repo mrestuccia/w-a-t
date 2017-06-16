@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Action Constants
-const USER_LOCATION_SUCCESS= 'USER_LOCATION_SUCCESS';
+const USER_LOCATION_SUCCESS = 'USER_LOCATION_SUCCESS';
 
 
 // Action Creator
@@ -14,10 +14,10 @@ const addUserLocationSuccess = (userlocation) => ({
 //Add User Location Axios Call
 
 const addUserLocation = (userId, state) => {
-  return (dispatch) => { 
+  return (dispatch) => {
     return axios.post(`/api/userlocation/${userId}`, state )
       .then(response => {
-        dispatch(addUserLocationSuccess(response.data))
+        dispatch(addUserLocationSuccess(response.data));
       })
       .catch(err => console.log('Error add User Location ', err));
   };
@@ -33,4 +33,4 @@ const addUserLocationReducer = (state = {}, action) => {
 };
 
 export {addUserLocation} ;
-export default addUserLocationReducer ;
+export default addUserLocationReducer;

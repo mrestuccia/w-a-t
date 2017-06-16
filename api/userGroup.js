@@ -21,7 +21,6 @@ router.get('/:token/join', (req, res, next) => {
 // POST
 // Adding a Friend to a group
 router.post('/:groupId', (req, res, next) => {
-  console.log('userGroup', req.params.groupId, req.body);
   const friend = req.body;
   let user = {};
 

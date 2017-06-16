@@ -49,7 +49,6 @@ class AddGroup extends React.Component {
 
   handleClose(event) {
     event.preventDefault();
-   //console.log(this.props.groups[0].userId);
     this.props.addGroup(this.props.groups[0].userId, this.state);
     this.setState(
       {

@@ -6,10 +6,8 @@ const { getDistanceFromLatLonInKm } = require("./utils");
 
 // GET
 // Get all the Users in a particular group
-router.get("/:id", (req, res, next) => {
+router.get('/:id', (req, res, next) => {
   const _groupId = req.params.id;
-
-  console.log("_groupId**", _groupId);
 
   models.UserGroup
     .findAll({
@@ -46,7 +44,6 @@ router.get("/:id", (req, res, next) => {
         }
       });
       res.send(users);
-      // console.log('Iam printing users',users);
     })
     .catch(next);
 });
@@ -56,7 +53,7 @@ router.get("/:id", (req, res, next) => {
 router.get("/:gId/:uId", (req, res, next) => {
   const _groupId = req.params.gId;
   const _userId = req.params.uId;
-  console.log(_groupId, _userId);
+
   models.UserGroup
     .findOne({
       include: [

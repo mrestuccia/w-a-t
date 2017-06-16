@@ -20,7 +20,6 @@ class Notifications extends Component {
 
 
   componentDidUpdate() {
-    console.log('componentDidUpdate');
     const { user } = this.props;
     if (user.hasOwnProperty('nearby')) this.showPersonalisedNotification(user.nearby);
   }
@@ -67,14 +66,5 @@ const mapStateToProps = (store) => {
     user: store.user
   };
 };
-
-/*const mapDispatchToProps = (dispatch) => {
-  return {
-    notify: () => {
-      //notify then dispach the sucess///
-      return dispatch(userNotified())
-    }
-  };
-};*/
 
 export default connect(mapStateToProps)(Notifications);
