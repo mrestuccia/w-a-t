@@ -29,7 +29,7 @@ const loadFriends = (gId) => {
   return (dispatch) => {
     return axios.get(`/api/group/${gId}`)
       .then(response => {
-        // console.log('friendlist', response.data)
+        console.log('loadFriends', response.data)
         return dispatch(loadFriendsSuccess(response.data));
       });
   };
@@ -68,6 +68,7 @@ const deleteFriend = (groupId, userId, state) =>{
 const friendReducer = (state = [], action) => {
   switch (action.type) {
     case LOAD_FRIENDS_SUCCESS:
+    console.log('my fries', action.friends);
       return action.friends;
     case SELECT_FRIEND_SUCCESS:
       return action.friend;

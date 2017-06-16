@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { loadFriends, deleteFriend } from '../../redux/reducers/friendReducer';
+// import {addUserLocation} from '../redux/reducers/userLocationReducer';
 import { List, ListItem } from 'material-ui/List';
 import SimpleMap from '../SimpleMap';
 
@@ -39,6 +40,17 @@ class friendList extends Component {
     this.onClick = this.onClick.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.renderLocation = function(friend){
+      console.log("friend inside render function", friend.user);
+      if (friend.user.userlocations.length > 0 && friend.user.userlocations[0].name)
+      {
+        return (<primaryText>At {friend.user.userlocations[0].name} </primaryText>);
+      }
+      else
+      {
+        return (<primaryText> lat: {friend.user.lat} long: {friend.user.long} </primaryText>);
+      }
+    };
   }
 
   onDeleteYes(){
@@ -76,9 +88,13 @@ class friendList extends Component {
     this.setState({open: false});
   };
 
+
   render() {
       
-    const {friends, group, user, lat, lng, changeValue } = this.props;
+    const {friends, lat, lng, changeValue } = this.props;
+      if(!friends) return null;
+    // console.log(friends[0].user);
+    // console.log('I am printing friend zero dot user',friends[0].user.userlocations[0].name)
     //console.log('SimpleMap', lat, lng);
     // console.log('friends[0]', friends[0].user.photo)
     const actions = [
@@ -114,17 +130,22 @@ class friendList extends Component {
                         modal={true}
                         open={this.state.open}
                       >
-                       sure to delete {friend.user.name}?
+                       Are you sure to delete {friend.user.name}?
                       </Dialog></div>}
+
+                  
                   primaryText={ 
                     <div value={friend.id}>
                       <span style={{ color: darkBlack }} value={friend.id} key={friend.id}>{friend.user.name
                       } </span></div>
                  
                   }
-                  secondaryText={<primaryText> lat: {friend.user.lat} long: {friend.user.long}</primaryText>}
+                  secondaryText=
+                  {
+                   <primaryText> {this.renderLocation(friend)} </primaryText>
+                  }
                   secondaryTextLines={2}
-                  
+          
                 />);
               })
             }

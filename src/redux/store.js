@@ -4,12 +4,14 @@ import thunk from 'redux-thunk';
 import userReducer from './reducers/userReducer';
 import groupReducer from './reducers/groupReducer';
 import friendReducer from './reducers/friendReducer';
+import userLocationReducer from './reducers/userLocationReducer';
 
 
 const combined = combineReducers({
   user: userReducer,
   groups: groupReducer,
-  friends: friendReducer
+  friends: friendReducer,
+  userlocation: userLocationReducer
 });
 
 const reduxDevtools = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
