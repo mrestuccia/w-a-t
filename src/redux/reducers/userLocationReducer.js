@@ -26,6 +26,7 @@ const addUserLocation = (userId, state) => {
 const addUserLocationReducer = (state = {}, action) => {
   switch (action.type) {
     case USER_LOCATION_SUCCESS:
+      console.log('location updated');
       return Object.assign({}, state, action.userlocation);
     default:
       return state;

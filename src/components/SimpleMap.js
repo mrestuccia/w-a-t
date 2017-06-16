@@ -70,7 +70,7 @@ class SimpleMap extends Component {
     poll() {
         const { friends, updateLocation } = this.props;
         this.getPosition()
-            .then((coordinates) => updateLocation(this.showPosition(coordinates), friends[0].groupId || 1));
+            .then((coordinates) => updateLocation(this.showPosition(coordinates), friends[0].groupId || null));
     }
 
 
