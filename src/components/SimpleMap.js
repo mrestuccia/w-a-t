@@ -75,13 +75,12 @@ class SimpleMap extends Component {
 
 
     render() {
-        const { friends, lat, long, center, zoom } = this.props;
+        const { friends, lat, long, center, zoom, mapHeight } = this.props;
         if (friends[0] == undefined) {
             return null;
         } else {
-            //console.log('selectedFriend from map', lat, lng)
             return (
-                <div style={{ width: '100%', height: '50%' }}>
+                <div style={{ width: '100%', height: mapHeight }}>
 
                     <GoogleMapReact
                         center={center}
