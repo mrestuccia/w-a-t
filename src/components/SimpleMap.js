@@ -47,7 +47,7 @@ class SimpleMap extends Component {
         var self = this;
         setTimeout(function () {
             self.poll();
-            self._timer = setInterval(self.poll.bind(self), 60000);
+            self._timer = setInterval(self.poll.bind(self), 5000);
         }, 1000);
     }
 
