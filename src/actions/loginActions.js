@@ -50,7 +50,6 @@ const updateLocation = (coordinates, groupId) => {
     return axios.put(`/api/user/${token}`, coordinates)
       .then(response => response.data)
       .then(response => {
-        console.log('update nearby people', response);
         return dispatch(nearbySuccess(response));
       })
       .then(() => {

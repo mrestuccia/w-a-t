@@ -41,7 +41,7 @@ class friendList extends Component {
     this.handleOpen = this.handleOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.renderLocation = function(friend){
-      console.log("friend inside render function", friend.user);
+      //console.log("friend inside render function", friend.user);
       if (friend.user.userlocations.length > 0 && friend.user.userlocations[0].name)
       {
         return (<primaryText>At {friend.user.userlocations[0].name} </primaryText>);

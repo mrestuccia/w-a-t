@@ -20,7 +20,7 @@ class Notifications extends Component {
 
 
   componentDidUpdate() {
-    console.log('componentDidUpdate');
+    //console.log('componentDidUpdate');
     const { user } = this.props;
     if (user.hasOwnProperty('nearby')) this.showPersonalisedNotification(user.nearby);
   }

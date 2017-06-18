@@ -45,7 +45,7 @@ class Home extends Component {
   }  
 
   render() {
-   
+    const {updateLocation} = this.props;
     return (
       <div id="myApp">
         <SimpleMap updateLocation={updateLocation} lat={this.state.lat} lng={this.state.lng} center={this.state.center} zoom={this.state.zoom} mapHeight={this.state.mapHeight}/>

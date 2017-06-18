@@ -108,7 +108,6 @@ router.put('/:token', (req, res, next) => {
             if (getDistanceFromLatLonInKm(location.lat, location.long, user.user.lat, user.user.long) < 0.1) {
               // It's less than 100 meters
               queue.push(user.user);
-              console.log('user=', user.user.id, user.user.lat, user.user.long, getDistanceFromLatLonInKm(location.lat, location.long, user.user.lat, user.user.long));
             }
           }
         });
