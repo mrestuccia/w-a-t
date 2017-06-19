@@ -1,7 +1,7 @@
 {
-  "name": "react-template",
+  "name": "WAT",
   "version": "1.0.0",
-  "description": "",
+  "description": "Social location network",
   "main": "index.js",
   "dependencies": {
     "axios": "^0.15.3",
@@ -47,6 +47,7 @@
     "supertest": "^3.0.0"
   },
   "scripts": {
+    "start": "node server.js",
     "postinstall": "npm run webpack",
     "test:dev": "SERVER_URL=http://localhost:3000 DATABASE_URL=postgres://localhost/wat_db_test nodemon ./node_modules/mocha/bin/mocha --recursive",
     "webpack": "./node_modules/webpack/bin/webpack.js",
