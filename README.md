@@ -1,7 +1,3 @@
-# npm install
-# create database from DATABASE_URL
-# npm run start:dev
-
 # WAT
 
 Where Are They (WAT) is a social app that allows you locate your group of friends/family using your phone!
